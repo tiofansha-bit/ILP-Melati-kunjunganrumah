@@ -90,6 +90,43 @@ export default function QuestionField({ q, value, onChange }) {
           className="mt-3 w-full rounded-xl border-2 border-slate-200 p-3 text-base outline-none focus:border-teal-500" rows={2} />
       )}
 
+      {q.jenis === "pemeriksaan" && (
+        <div className="mt-3 grid gap-2">
+          {(q.fields || ["tanggal", "tempat", "petugas"]).map((fld) => (
+            <div key={fld}>
+              <label className="mb-1 block text-xs font-medium capitalize text-slate-500">{fld === "tempat" ? "Tempat periksa" : fld === "petugas" ? "Nama petugas" : "Tanggal"}</label>
+              <input type={fld === "tanggal" ? "date" : "text"} data-testid={`${q.kode}-${fld}`}
+                value={(value || {})[fld] || ""} max={fld === "tanggal" ? new Date().toISOString().slice(0, 10) : undefined}
+                onChange={(e) => onChange({ ...(value || {}), [fld]: e.target.value })}
+                className="w-full rounded-xl border-2 border-slate-200 px-3 py-2.5 text-base outline-none focus:border-teal-500"
+                placeholder={fld === "tempat" ? "mis. Puskesmas / Posyandu" : fld === "petugas" ? "mis. Bidan Ani" : ""} />
+            </div>
+          ))}
+        </div>
+      )}
+
+      {q.jenis === "imunisasi" && (
+        <div className="mt-3 space-y-2.5">
+          {(q.jadwal || []).map((row, ri) => (
+            <div key={ri} className="rounded-xl border border-slate-100 bg-slate-50 p-3">
+              <p className="mb-2 text-sm font-semibold text-slate-700">{row.usia}</p>
+              <div className="flex flex-wrap gap-2">
+                {row.vaksin.map((v) => {
+                  const on = ((value || {})[row.usia] || {})[v];
+                  return (
+                    <button type="button" key={v} data-testid={`${q.kode}-vax`}
+                      onClick={() => onChange({ ...(value || {}), [row.usia]: { ...((value || {})[row.usia] || {}), [v]: !on } })}
+                      className={`inline-flex items-center gap-1 rounded-full border px-3 py-1.5 text-xs font-medium transition-colors ${on ? "border-emerald-500 bg-emerald-50 text-emerald-700" : "border-slate-200 bg-white text-slate-500 hover:border-emerald-300"}`}>
+                      {on && <Check className="h-3 w-3" />} {v}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
+
       <ApaMaksudnya q={q} />
     </div>
   );

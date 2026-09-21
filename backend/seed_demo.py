@@ -61,6 +61,9 @@ async def seed_all(db, hash_password):
         if qs:
             await db.master_questions.insert_many(qs)
 
+    # ---- detailed checklist questions (K1-K6, KF, KN, immunization) — idempotent ----
+    await seed_detail_questions(db)
+
     # ---- demo families, members, visits, cases ----
     if await db.keluarga.count_documents({}) == 0:
         await _seed_families(db)
@@ -217,6 +220,70 @@ async def _seed_visit(db, kader, kid, kk_nama, kel, rt, rw, posyandu, members, r
                 "priority": t["priority"], "judul": f"Laporan {t['priority'].upper()}: {t['masalah']}",
                 "pesan": f"Dari kader {kader['nama']} di {kel} RT {rt}", "kasus_id": cid,
                 "dibaca": False, "untuk_role": "admin", "waktu": iso(vt)})
+
+
+BAYI_JADWAL = [
+    {"usia": "Usia 0 bulan", "vaksin": ["Hepatitis B (<24 jam)", "BCG", "Polio Tetes 1"]},
+    {"usia": "Usia 1 bulan", "vaksin": ["BCG", "Polio Tetes 1"]},
+    {"usia": "Usia 2 bulan", "vaksin": ["DPT-HB-Hib 1", "Polio Tetes 2", "PCV 1", "RV 1"]},
+    {"usia": "Usia 3 bulan", "vaksin": ["DPT-HB-Hib 2", "Polio Tetes 3", "PCV 2", "RV 2"]},
+    {"usia": "Usia 4 bulan", "vaksin": ["DPT-HB-Hib 3", "Polio Tetes 4", "Polio Suntik (IPV) 1", "RV 3"]},
+]
+BALITA_JADWAL = BAYI_JADWAL + [
+    {"usia": "Usia 9 bulan", "vaksin": ["Campak-Rubella", "Polio Suntik (IPV) 2"]},
+    {"usia": "Usia 10 bulan", "vaksin": ["Japanese Encephalitis (JE)"]},
+    {"usia": "Usia 12 bulan", "vaksin": ["PCV 3"]},
+    {"usia": "Usia 18 bulan", "vaksin": ["DPT-HB-Hib Lanjutan", "Campak-Rubella Lanjutan"]},
+]
+
+
+def _detail_defs():
+    """Detailed records exactly like the Excel card (informational, no priority)."""
+    out = []
+    triwulan = {"K1": "trimester I (usia kehamilan hingga 12 minggu)", "K2": "trimester II (12-24 minggu)",
+                "K3": "trimester II (12-24 minggu)", "K4": "trimester III (24-40 minggu)",
+                "K5": "trimester III (24-40 minggu)", "K6": "trimester III (24-40 minggu)"}
+    for i, k in enumerate(["K1", "K2", "K3", "K4", "K5", "K6"], 1):
+        out.append({"kode": f"BUMIL_{k}", "group": "ibu_hamil", "section": "ceklis",
+                    "text": f"Pemeriksaan kehamilan {k}",
+                    "definisi": f"Diisi tanggal, tempat periksa, dan nama petugas pemeriksaan {k} pada {triwulan[k]}.",
+                    "jenis": "pemeriksaan", "fields": ["tanggal", "tempat", "petugas"], "satuan": None,
+                    "opsi": [], "wajib": False, "problem_when": [], "priority": None,
+                    "report_required": False, "urutan": 3 + i / 10})
+    kf = {"KF1": "6-48 jam", "KF2": "3-7 hari", "KF3": "8-28 hari", "KF4": "29-42 hari"}
+    for i, (k, w) in enumerate(kf.items(), 1):
+        out.append({"kode": f"NIFAS_{k}", "group": "nifas", "section": "ceklis",
+                    "text": f"Kunjungan nifas {k} ({w})",
+                    "definisi": f"Diisi tanggal dan tempat ibu memeriksakan kesehatannya (Fasyankes) {w} setelah bersalin.",
+                    "jenis": "pemeriksaan", "fields": ["tanggal", "tempat"], "satuan": None,
+                    "opsi": [], "wajib": False, "problem_when": [], "priority": None,
+                    "report_required": False, "urutan": 3 + i / 10})
+    kn = {"KN1": "6-48 jam", "KN2": "3-7 hari", "KN3": "8-28 hari"}
+    for i, (k, w) in enumerate(kn.items(), 1):
+        out.append({"kode": f"BAYI_{k}", "group": "bayi", "section": "ceklis",
+                    "text": f"Kunjungan neonatal {k} ({w})",
+                    "definisi": f"Diisi tanggal, tempat, dan petugas pemeriksaan bayi {w} setelah dilahirkan.",
+                    "jenis": "pemeriksaan", "fields": ["tanggal", "tempat", "petugas"], "satuan": None,
+                    "opsi": [], "wajib": False, "problem_when": [], "priority": None,
+                    "report_required": False, "urutan": 7 + i / 10})
+    out.append({"kode": "BAYI_IMUN_DETAIL", "group": "bayi", "section": "ceklis",
+                "text": "Imunisasi per usia (centang yang sudah diberikan)",
+                "definisi": "Status imunisasi bayi 0-6 bulan sesuai jadwal usia.",
+                "jenis": "imunisasi", "jadwal": BAYI_JADWAL, "satuan": None, "opsi": [],
+                "wajib": False, "problem_when": [], "priority": None, "report_required": False, "urutan": 8.1})
+    out.append({"kode": "BALITA_IMUN_DETAIL", "group": "balita", "section": "ceklis",
+                "text": "Imunisasi per usia (centang yang sudah diberikan)",
+                "definisi": "Status imunisasi anak sesuai jadwal usia (0 bulan s.d. 18 bulan).",
+                "jenis": "imunisasi", "jadwal": BALITA_JADWAL, "satuan": None, "opsi": [],
+                "wajib": False, "problem_when": [], "priority": None, "report_required": False, "urutan": 6.1})
+    return out
+
+
+async def seed_detail_questions(db):
+    for q in _detail_defs():
+        q["deleted"] = False
+        await db.master_questions.update_one({"kode": q["kode"]}, {"$setOnInsert": q}, upsert=True)
+
 
 
 def default_akreditasi():
