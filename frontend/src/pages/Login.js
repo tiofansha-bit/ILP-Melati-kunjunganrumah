@@ -2,7 +2,8 @@ import { useState } from "react";
 import { useAuth } from "@/context/AuthContext";
 import { errMsg } from "@/lib/api";
 import { toast } from "sonner";
-import { HeartPulse, Loader2, User, Lock, Stethoscope, Home } from "lucide-react";
+import { Loader2, User, Lock, Stethoscope, Home } from "lucide-react";
+import logo from "@/assets/logo.png";
 
 export default function Login() {
   const { login } = useAuth();
@@ -31,9 +32,10 @@ export default function Login() {
       <div className="relative hidden lg:flex flex-col justify-between bg-teal-700 p-12 text-white overflow-hidden">
         <div className="absolute -right-20 -top-20 h-80 w-80 rounded-full bg-teal-600/50" />
         <div className="absolute -bottom-24 -left-16 h-96 w-96 rounded-full bg-emerald-500/20" />
-        <div className="relative z-10 flex items-center gap-3">
-          <div className="grid h-12 w-12 place-items-center rounded-2xl bg-white/15 backdrop-blur"><HeartPulse className="h-7 w-7" /></div>
-          <div><p className="text-lg font-extrabold tracking-tight">PWS ILP MELATI</p><p className="text-sm text-teal-100">UPT Puskesmas Melati</p></div>
+        <div className="relative z-10">
+          <div className="inline-flex rounded-2xl bg-white px-5 py-3.5 shadow-lg">
+            <img src={logo} alt="PWS ILP MELATI" className="h-12 w-auto" />
+          </div>
         </div>
         <div className="relative z-10 space-y-4">
           <h1 className="text-4xl font-extrabold leading-tight tracking-tight">Digitalisasi Ceklis<br />Kunjungan Rumah</h1>
@@ -51,9 +53,8 @@ export default function Login() {
       <div className="flex min-h-screen items-center justify-center px-6 py-12">
         <div className="w-full max-w-sm animate-slide-up">
           <div className="mb-8 lg:hidden">
-            <div className="mb-3 grid h-14 w-14 place-items-center rounded-2xl bg-teal-600 text-white"><HeartPulse className="h-8 w-8" /></div>
-            <h1 className="text-2xl font-extrabold tracking-tight text-slate-900">PWS ILP MELATI</h1>
-            <p className="text-sm text-slate-500">UPT Puskesmas Melati</p>
+            <img src={logo} alt="PWS ILP MELATI" className="h-14 w-auto" />
+            <p className="mt-2 text-sm text-slate-500">UPT Puskesmas Melati</p>
           </div>
           <h2 className="text-xl font-bold text-slate-900">Masuk ke Akun</h2>
           <p className="mb-6 text-sm text-slate-500">Gunakan akun kader atau petugas puskesmas.</p>

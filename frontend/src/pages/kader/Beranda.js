@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { api } from "@/lib/api";
+import { cacheSet, cacheGet } from "@/lib/offline";
 import { useAuth } from "@/context/AuthContext";
 import { MapPin, Home as HomeIcon, CheckCircle2, Circle, AlertTriangle, CloudOff, ClipboardPlus, Loader2, Bell } from "lucide-react";
 
@@ -17,7 +18,7 @@ function Stat({ icon: Icon, label, value, tone }) {
 export default function Beranda({ go }) {
   const { user } = useAuth();
   const [d, setD] = useState(null);
-  useEffect(() => { api.get("/kader/beranda").then((r) => setD(r.data)); }, []);
+  useEffect(() => { api.get("/kader/beranda").then((r) => { setD(r.data); cacheSet("beranda", r.data); }).catch(() => { const c = cacheGet("beranda"); if (c) setD(c); }); }, []);
 
   if (!d) return <div className="flex h-96 items-center justify-center"><Loader2 className="h-7 w-7 animate-spin text-teal-600" /></div>;
 

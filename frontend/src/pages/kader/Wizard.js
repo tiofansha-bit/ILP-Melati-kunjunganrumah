@@ -2,6 +2,7 @@ import { useEffect, useState, useMemo } from "react";
 import { api, errMsg } from "@/lib/api";
 import { toast } from "sonner";
 import QuestionField, { DangerGrid } from "./QuestionField";
+import { submitKunjungan, cacheSet, cacheGet } from "@/lib/offline";
 import {
   ArrowLeft, ArrowRight, Save, Send, Loader2, Check, ShieldAlert, Users,
   Home as HomeIcon, ClipboardList, BookOpen, ListChecks, X, Circle, CheckCircle2,
@@ -25,12 +26,14 @@ export default function Wizard({ go, params }) {
   // load families for step 0 (if no preselected)
   useEffect(() => {
     if (params.keluarga_id) loadKeluarga(params.keluarga_id);
-    else api.get("/keluarga").then((r) => setFamilies(r.data.items));
+    else api.get("/keluarga").then((r) => { setFamilies(r.data.items); cacheSet("families", r.data.items); }).catch(() => setFamilies(cacheGet("families") || []));
   }, [params.keluarga_id]);
 
   const loadKeluarga = async (id) => {
-    const r = await api.get(`/keluarga/${id}`);
-    setKeluarga(r.data);
+    let data;
+    try { const r = await api.get(`/keluarga/${id}`); data = r.data; cacheSet(`kel_${id}`, data); }
+    catch (e) { data = cacheGet(`kel_${id}`); if (!data) { toast.error("Data keluarga tidak tersedia offline"); return; } }
+    setKeluarga(data);
     // restore draft
     const draft = localStorage.getItem(DRAFT_KEY(id));
     if (draft) { try { const d = JSON.parse(draft); setSelMembers(d.selMembers || []); setAnswers(d.answers || {}); setEdukasi(d.edukasi || {}); } catch (_) {} }
@@ -42,7 +45,9 @@ export default function Wizard({ go, params }) {
     const groups = [...new Set(keluarga?.anggota?.filter((a) => selMembers.includes(a.id)).map((a) => a.kelompok) || [])];
     groups.forEach((g) => {
       if (g && !questions[g] && g !== "belum_ditentukan")
-        api.get("/master/questions", { params: { group: g } }).then((r) => setQuestions((p) => ({ ...p, [g]: r.data })));
+        api.get("/master/questions", { params: { group: g } })
+          .then((r) => { setQuestions((p) => ({ ...p, [g]: r.data })); cacheSet(`q_${g}`, r.data); })
+          .catch(() => { const c = cacheGet(`q_${g}`); if (c) setQuestions((p) => ({ ...p, [g]: c })); });
     });
   }, [selMembers, keluarga]); // eslint-disable-line
 
@@ -89,12 +94,13 @@ export default function Wizard({ go, params }) {
     if (!asDraft && hasRed && !reminderOk) { toast.error("Konfirmasi tanda bahaya dulu."); return; }
     setSubmitting(true);
     try {
-      await api.post("/kunjungan", {
-        keluarga_id: keluarga.id, anggota_ids: selMembers, answers, edukasi,
+      const res = await submitKunjungan({
+        keluarga_id: keluarga.id, keluarga_nama: keluarga.nama_kk, anggota_ids: selMembers, answers, edukasi,
         status: asDraft ? "draf" : "selesai", reminder_confirmed: reminderOk,
       });
       localStorage.removeItem(DRAFT_KEY(keluarga.id));
-      toast.success(asDraft ? "Draf tersimpan" : "Laporan kunjungan terkirim!");
+      if (res.queued) toast.success("Tersimpan di perangkat — akan dikirim otomatis saat online");
+      else toast.success(asDraft ? "Draf tersimpan" : "Laporan kunjungan terkirim!");
       go("beranda");
     } catch (e) { toast.error(errMsg(e)); } finally { setSubmitting(false); }
   };

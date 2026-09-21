@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Home, Users, ClipboardCheck, ListTodo, User } from "lucide-react";
+import SyncBar from "@/components/SyncBar";
 import Beranda from "./Beranda";
 import KeluargaList from "./KeluargaList";
 import KeluargaForm from "./KeluargaForm";
@@ -21,6 +22,7 @@ export default function KaderApp() {
 
   return (
     <div className="relative mx-auto min-h-screen max-w-md border-x border-slate-200 bg-slate-50 pb-24 shadow-xl">
+      <SyncBar />
       {view.tab === "beranda" && <Beranda go={go} />}
       {view.tab === "keluarga" && <KeluargaList go={go} />}
       {view.tab === "keluarga-form" && <KeluargaForm go={go} params={view.params} />}

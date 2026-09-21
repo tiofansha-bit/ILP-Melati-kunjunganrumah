@@ -10,6 +10,7 @@ import MasterQuestions from "./MasterQuestions";
 import Akreditasi from "./Akreditasi";
 import AuditLog from "./AuditLog";
 import Laporan from "./Laporan";
+import logo from "@/assets/logo.png";
 import {
   LayoutDashboard, AlertOctagon, Users, UserCog, ListChecks, PresentationIcon,
   ScrollText, FileDown, HeartPulse, LogOut, Bell, Menu, X, Presentation,
@@ -20,7 +21,7 @@ const MENU = [
   { key: "prioritas", label: "Daftar Prioritas", icon: AlertOctagon },
   { key: "keluarga", label: "Keluarga & Sasaran", icon: Users },
   { key: "laporan", label: "Laporan & Rekap", icon: FileDown },
-  { key: "akreditasi", label: "Dashboard Akreditasi", icon: Presentation },
+  { key: "akreditasi", label: "Mode", icon: Presentation },
   { key: "kader", label: "Manajemen Kader", icon: UserCog },
   { key: "master", label: "Master Pertanyaan", icon: ListChecks },
   { key: "audit", label: "Audit Log", icon: ScrollText },
@@ -56,9 +57,8 @@ export default function AdminApp() {
     <div className="flex min-h-screen bg-slate-100">
       {/* Sidebar desktop */}
       <aside className="sticky top-0 hidden h-screen w-64 shrink-0 flex-col bg-slate-900 p-4 lg:flex">
-        <div className="mb-6 flex items-center gap-2.5 px-1">
-          <div className="grid h-10 w-10 place-items-center rounded-xl bg-teal-600 text-white"><HeartPulse className="h-6 w-6" /></div>
-          <div><p className="text-sm font-extrabold text-white">PWS ILP MELATI</p><p className="text-[11px] text-slate-400">Puskesmas Melati</p></div>
+        <div className="mb-6 px-1">
+          <div className="rounded-xl bg-white p-2.5"><img src={logo} alt="PWS ILP MELATI" className="mx-auto h-9 w-auto" /></div>
         </div>
         <nav className="flex-1 space-y-1"><Nav /></nav>
         <button onClick={() => { logout(); toast.success("Keluar"); }} className="flex items-center gap-2 rounded-xl px-3.5 py-2.5 text-sm font-medium text-slate-300 hover:bg-slate-800"><LogOut className="h-5 w-5" /> Keluar</button>
@@ -70,7 +70,7 @@ export default function AdminApp() {
           <div className="absolute inset-0 bg-black/40" />
           <aside className="absolute left-0 top-0 flex h-full w-72 flex-col bg-slate-900 p-4" onClick={(e) => e.stopPropagation()}>
             <div className="mb-6 flex items-center justify-between">
-              <span className="font-extrabold text-white">PWS ILP MELATI</span>
+              <div className="rounded-lg bg-white p-1.5"><img src={logo} alt="PWS ILP MELATI" className="h-7 w-auto" /></div>
               <button onClick={() => setOpen(false)}><X className="h-5 w-5 text-slate-400" /></button>
             </div>
             <nav className="flex-1 space-y-1"><Nav /></nav>

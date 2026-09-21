@@ -1,5 +1,6 @@
 import { useEffect, useState, useCallback } from "react";
 import { api } from "@/lib/api";
+import { cacheSet, cacheGet } from "@/lib/offline";
 import { Search, Plus, ChevronRight, MapPin, Users, CheckCircle2, Circle, Loader2, ClipboardPlus } from "lucide-react";
 
 export default function KeluargaList({ go }) {
@@ -7,7 +8,9 @@ export default function KeluargaList({ go }) {
   const [data, setData] = useState(null);
 
   const load = useCallback(() => {
-    api.get("/keluarga", { params: { search } }).then((r) => setData(r.data));
+    api.get("/keluarga", { params: { search } })
+      .then((r) => { setData(r.data); if (!search) cacheSet("families_list", r.data); })
+      .catch(() => { const c = cacheGet("families_list"); if (c) setData(c); });
   }, [search]);
   useEffect(() => { const t = setTimeout(load, 300); return () => clearTimeout(t); }, [load]);
 
