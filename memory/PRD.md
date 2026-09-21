@@ -22,6 +22,11 @@ Task saat ini: **Import repo dari GitHub** (`tiofansha-bit/ILP-Melati-kunjunganr
 - **Ganti Kata Sandi (baru, 2026-06)**: endpoint `POST /api/auth/change-password` (verifikasi kata sandi lama via bcrypt, min 6 karakter). Modal bersama `ChangePassword.js` di halaman Profil kader (tombol `change-password-btn`) dan header admin (tombol `admin-change-password-btn`). Diverifikasi testing agent 100% (wrong current→error, valid→sukses & re-login OK, kedua role).
 - **Ekspor Laporan**: `/export/{jenis}` (kasus/kunjungan/keluarga) format CSV/Excel(openpyxl)/PDF(fpdf2) — 9 kombinasi terverifikasi 200 + content-type benar; tombol di menu Laporan berfungsi (download).
 - **Mode Offline Kader**: `offline.js` (antrean sinkron + cache localStorage) + `SyncBar.js` (auto-flush tiap 15s & saat kembali online). Wizard memakai `submitKunjungan`/cache untuk keluarga, detail, & pertanyaan → kader bisa mengisi tanpa sinyal, terkirim otomatis saat online.
+- **Ekspor Terfilter (baru)**: `/export/{jenis}` menerima `start`, `end`, `kelurahan`; UI menu Laporan punya filter tanggal + kelurahan + chip filter aktif. Terverifikasi (filter kelurahan hanya baris cocok, rentang tanggal future=0).
+- **Reset Sandi Kader (baru)**: `POST /api/admin/kader/{uid}/reset-password` (default kader123, min 6 char) + tombol "Reset Sandi" per baris di Manajemen Kader. Terverifikasi (reset→login baru OK→restore). 
+
+## Belum Dikerjakan
+- **Sesuaikan ceklis dengan file kartu ceklis Excel**: DITUNDA — file Excel belum diunggah user. Perlu file `Kartu Ceklis Kunjungan Rumah.xlsx` untuk menyesuaikan `master_questions`.
 
 ## Backlog (P1/P2)
 - P1: Offline penuh (IndexedDB + antrean sinkronisasi), peta sebaran RT/RW, foto lampiran.
