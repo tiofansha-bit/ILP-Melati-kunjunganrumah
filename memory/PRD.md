@@ -16,9 +16,12 @@ Task saat ini: **Import repo dari GitHub** (`tiofansha-bit/ILP-Melati-kunjunganr
 
 ## Implemented (2026-06)
 - **Import & setup selesai**: repo di-clone ke /app, dependency backend (fpdf2, openpyxl, dll) & frontend (yarn) terpasang, `.env` dibuat sesuai konvensi Emergent, `JWT_SECRET` ditambahkan.
-- Seed demo berjalan: 11 users (admin + 10 kader), 4 kelurahan, 6 posyandu, 135 master questions, 34 keluarga, 118 anggota, 26 kunjungan, 104 kasus, 32 notifikasi, 1 dashboard akreditasi.
-- Login terverifikasi: `admin/admin123`, `kader1/kader123`. Dashboard KPI, charts, kader beranda semua mengembalikan data (via live URL).
-- **UI changes (permintaan user)**: menu "Mode" (Dashboard Simulasi Akreditasi) disembunyikan dari sidebar admin; teks "Data demonstrasi bersifat fiktif" dihapus dari halaman login. Diverifikasi testing agent (frontend 100%).
+- Seed demo berjalan (idempotent di startup): 11 users, 4 kelurahan, 6 posyandu, 135 master questions, 34 keluarga, 118 anggota, 26 kunjungan, 104 kasus, 32 notifikasi, 1 dashboard akreditasi.
+- Login terverifikasi: `admin/admin123`, `kader1/kader123`.
+- **UI changes**: menu "Mode" (Akreditasi) disembunyikan dari sidebar admin; teks "Data demonstrasi bersifat fiktif" dihapus dari login.
+- **Ganti Kata Sandi (baru, 2026-06)**: endpoint `POST /api/auth/change-password` (verifikasi kata sandi lama via bcrypt, min 6 karakter). Modal bersama `ChangePassword.js` di halaman Profil kader (tombol `change-password-btn`) dan header admin (tombol `admin-change-password-btn`). Diverifikasi testing agent 100% (wrong current→error, valid→sukses & re-login OK, kedua role).
+- **Ekspor Laporan**: `/export/{jenis}` (kasus/kunjungan/keluarga) format CSV/Excel(openpyxl)/PDF(fpdf2) — 9 kombinasi terverifikasi 200 + content-type benar; tombol di menu Laporan berfungsi (download).
+- **Mode Offline Kader**: `offline.js` (antrean sinkron + cache localStorage) + `SyncBar.js` (auto-flush tiap 15s & saat kembali online). Wizard memakai `submitKunjungan`/cache untuk keluarga, detail, & pertanyaan → kader bisa mengisi tanpa sinyal, terkirim otomatis saat online.
 
 ## Backlog (P1/P2)
 - P1: Offline penuh (IndexedDB + antrean sinkronisasi), peta sebaran RT/RW, foto lampiran.
