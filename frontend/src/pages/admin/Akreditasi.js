@@ -16,11 +16,7 @@ const CARD_COLOR = {
 };
 const STATUS_LBL = { tercapai: "Tercapai", belum_tercapai: "Belum Tercapai", perlu_perhatian: "Perlu Perhatian" };
 
-const SimBanner = () => (
-  <div className="flex items-center gap-2 rounded-xl bg-amber-400 px-4 py-2.5 text-sm font-bold text-amber-950">
-    <AlertTriangle className="h-5 w-5" /> DATA SIMULASI/DEMO – BUKAN DATA PELAYANAN AKTUAL
-  </div>
-);
+const SimBanner = () => null;
 
 export default function Akreditasi() {
   const [list, setList] = useState(null);
@@ -57,7 +53,6 @@ export default function Akreditasi() {
       <div className="fixed inset-0 z-[70] overflow-y-auto bg-slate-900 p-8 text-white">
         <button onClick={() => setPresent(false)} className="fixed right-6 top-6 rounded-xl bg-white/10 p-2 backdrop-blur"><X className="h-6 w-6" /></button>
         <div className="mx-auto max-w-6xl">
-          <div className="mb-2 inline-flex items-center gap-2 rounded-lg bg-amber-400 px-3 py-1 text-sm font-bold text-amber-950"><AlertTriangle className="h-4 w-4" /> DATA SIMULASI</div>
           <h1 className="text-4xl font-extrabold tracking-tight">{d.judul}</h1>
           <p className="mt-1 text-xl text-slate-300">{d.subjudul} · {d.puskesmas}</p>
           <p className="text-lg text-teal-400">{d.periode}</p>
