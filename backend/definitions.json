@@ -1,0 +1,1620 @@
+{
+ "data_keluarga": [
+  {
+   "num": null,
+   "title": "Tanggal pengumpulan data",
+   "definisi": "Diisi dengan tanggal pengumpulan data"
+  },
+  {
+   "num": null,
+   "title": "Alamat",
+   "definisi": "Diisi alamat tempat tinggal"
+  },
+  {
+   "num": null,
+   "title": "No. Handphone KK / Salah satu anggota keluarga",
+   "definisi": "Diisi dengan No. Handphone Kepala Keluarga atau salah satu anggota keluarga"
+  },
+  {
+   "num": null,
+   "title": "Desa/Kelurahan",
+   "definisi": "Diisi nama Desa/Kelurahan tempat tinggal"
+  },
+  {
+   "num": null,
+   "title": "Kecamatan",
+   "definisi": "Diisi nama Kecamatan tempat tinggal"
+  },
+  {
+   "num": null,
+   "title": "Kabupaten/Kota",
+   "definisi": "Diisi nama Kabupaten/Kota tempat tinggal"
+  },
+  {
+   "num": null,
+   "title": "Provinsi",
+   "definisi": "Diisi nama Provinsi tempat tinggal"
+  },
+  {
+   "num": null,
+   "title": "Puskesmas",
+   "definisi": "Diisi nama Puskesmas yang mewilayahi tempat tinggal"
+  },
+  {
+   "num": null,
+   "title": "Pustu/Posyandu Prima",
+   "definisi": "Diisi nama Pustu/Posyandu Prima di wilayah tempat tinggal (jika sudah ada)"
+  },
+  {
+   "num": null,
+   "title": "Posyandu",
+   "definisi": "Diisi Nama Posyandu di wilayah tempat tinggal"
+  },
+  {
+   "num": null,
+   "title": "Informasi Anggota Keluarga",
+   "definisi": "Diisi dengan seluruh anggota keluarga (Nama Lengkap, NIK, Tanggal Lahir, Jenis Kelamin, Hubungan dengan Kepala Keluarga, Status Perkawinan, Pendidikan Terakhir, Pekerjaan, dan Kelompok Sasaran)"
+  },
+  {
+   "num": null,
+   "title": "No",
+   "definisi": "Nomor urut"
+  },
+  {
+   "num": null,
+   "title": "Nama Lengkap",
+   "definisi": "Diisi nama lengkap sesuai KTP seluruh anggota keluarga sesuai nomor urut"
+  },
+  {
+   "num": null,
+   "title": "NIK",
+   "definisi": "Diisi nomor Induk Kependudukan seluruh anggota keluarga sesuai nomor urut"
+  },
+  {
+   "num": null,
+   "title": "Tanggal Lahir",
+   "definisi": "Diisi tanggal lahir seluruh anggota keluarga sesuai nomor urut"
+  },
+  {
+   "num": null,
+   "title": "Jenis Kelamin",
+   "definisi": "Diisi jenis kelamin seluruh anggota keluarga (Laki-laki=L) atau (Perempuan=P)"
+  },
+  {
+   "num": null,
+   "title": "Hubungan dengan Kepala Keluarga",
+   "definisi": "Diisi hubungan anggota keluarga dengan Kepala Keluarga dengan memilih salah satu angka yang sesuai 1 s.d. 9"
+  },
+  {
+   "num": null,
+   "title": "Status Perkawinan",
+   "definisi": "Diisi status perkawinan dengan memilih salah satu angka yang sesuai dari angka 1 s.d. 4"
+  },
+  {
+   "num": null,
+   "title": "Pendidikan Terakhir",
+   "definisi": "Diisi jenjang Pendidikan formal terakhir dengan memilih salah satu angka yang sesuai dari angka 1 s.d. 6"
+  },
+  {
+   "num": null,
+   "title": "Pekerjaan",
+   "definisi": "Diisi informasi pekerjaan dengan memilih salah satu angka yang sesuai dari angka 1 s.d. 7"
+  },
+  {
+   "num": null,
+   "title": "Kelompok Sasaran",
+   "definisi": "Diisi kelompok Sasaran dengan memilih salah satu angka yang sesuai dari angka 1 s.d. 6"
+  },
+  {
+   "num": 1,
+   "title": "Nama Kepala Keluarga",
+   "definisi": "Diisi nama Kepala Keluarga sesuai KTP"
+  },
+  {
+   "num": 2,
+   "title": "Data anggota keluarga",
+   "definisi": "Diisi dengan angka jumlah anggota keluarga dan jumlah anggota sesuai kelompok umur"
+  },
+  {
+   "num": 3,
+   "title": "Apakah memiliki Jaminan Kesehatan Nasional (JKN) / Jaminan Kesehatan Daerah (Jamkesda) / Asuransi Kesehatan",
+   "definisi": "Diisi (√) ya/tidak,  jika memiliki/tidak memiliki salah satu JKN/Jamkesda/Askes"
+  },
+  {
+   "num": null,
+   "title": "4a",
+   "definisi": "Apakah tersedia sarana air bersih di lingkungan rumah? Observasi lingkungan rumah tersedia/tidak tersedia sarana air bersih dengan memberikan ceklis (√)"
+  },
+  {
+   "num": null,
+   "title": "4b",
+   "definisi": "Bila \"Ya\"; apa jenis sumber airnya terlindung? Jelas"
+  },
+  {
+   "num": null,
+   "title": "4c",
+   "definisi": "Apakah tersedia jamban keluarga? Observasi bangunan di rumah yang dapat dipergunakan untuk membuang tinja/kotoran manusia bagi keluarga, lazimnya disebut kakus tersedia/tidak tersedia dengan memberikan ceklis (√)"
+  },
+  {
+   "num": null,
+   "title": "4d",
+   "definisi": "Bila \"Ya\", apakan jenis jambannya saniter? Jelas"
+  },
+  {
+   "num": 5,
+   "title": "Apakah rumah memiliki ventilasi yang cukup?",
+   "definisi": "Observasi bangunan rumah tersedia/tidak tersedia (lubang) tempat udara yang dapat keluar masuk secara bebas dengan memberikan ceklis (√)"
+  },
+  {
+   "num": 6,
+   "title": "Apakah ada anggota keluarga yang mengalami gangguan jiwa",
+   "definisi": "ada/tidak ada nya anggota keluarga dengan Gangguan Jiwa (ODGJ)"
+  },
+  {
+   "num": 7,
+   "title": "Apakah ada anggota keluarga yang terdiagnosis penyakit berikut? \n(TBC, Hipertensi, Diabetes Melitus)",
+   "definisi": "Anggota keluarga ada/tidak ada yang menderita penyakit TBC, Hipertensi dan Diabetes Melitus"
+  }
+ ],
+ "ibu_hamil": [
+  {
+   "num": null,
+   "title": "Nama",
+   "definisi": "Diisi nama ibu sesuai KTP"
+  },
+  {
+   "num": null,
+   "title": "Umur",
+   "definisi": "Diisi umur ibu, dihitung sesuai tanggal lahir ibu yang tertera di KTP dalam hitungan tahun"
+  },
+  {
+   "num": null,
+   "title": "Kehamilan anak ke",
+   "definisi": "Diisi kehamilan anak keberapa, dihitung sesuai dengan urutan anak yang ibu lahirkan baik hidup atau yang sudah meninggal"
+  },
+  {
+   "num": null,
+   "title": "Jarak kehamilan dengan kehamilan sebelumnya",
+   "definisi": "Diisi jarak kehamilan antara kehamilan saat ini dengan kehamilan sebelumnya, ditulis dalam hitungan tahun/bulan"
+  },
+  {
+   "num": 1,
+   "title": "Waktu Kunjungan",
+   "definisi": "Periode kunjungan kader ke rumah ibu hamil"
+  },
+  {
+   "num": 2,
+   "title": "Tanggal",
+   "definisi": "Diisi tanggal kader berkunjung ke rumah ibu hamil"
+  },
+  {
+   "num": 3,
+   "title": "Pemantauan suhu tubuh",
+   "definisi": "Diisi hasil pemeriksaan suhu tubuh Ibu hamil"
+  },
+  {
+   "num": 4,
+   "title": "Ada buku KIA",
+   "definisi": "Ibu memiliki buku KIA dan dapat menunjukkan kepada kader"
+  },
+  {
+   "num": null,
+   "title": "Ibu memeriksakan kehamilan",
+   "definisi": "Ibu hamil memeriksakan kesehatannya pada trimester 1, 2 dan 3 sebanyak minimal 6 kali"
+  },
+  {
+   "num": null,
+   "title": "Trimester I (1 kali pada umur kehamilan hingga 12 minggu)",
+   "definisi": "Ibu hamil memeriksakan kesehatannya pada trimester pertama kehamilan (usia kehamilan hingga 12 minggu)"
+  },
+  {
+   "num": 5,
+   "title": "K1",
+   "definisi": "Diisi tanggal, tempat periksa, dan nama petugas yang melakukan pemeriksaan kesehatan ibu hamil di Fasyankes (dokter) pada trimester pertama kehamilan (usia kehamilan hingga 12 minggu)"
+  },
+  {
+   "num": null,
+   "title": "Trimester II (2 kali pada umur kehamilan diatas 12 - 24 minggu)",
+   "definisi": "Ibu hamil memeriksakan kesehatannya pada trimester kedua (kehamilan diatas 12 - 24 minggu)sebanyak 2 kali"
+  },
+  {
+   "num": 6,
+   "title": "K2",
+   "definisi": "Diisi tanggal, tempat periksa, dan nama petugas yang melakukan pemeriksaan kesehatan Ibu hamil di fasyankes pada trimester kedua kehamilan (usia kehamilan di atas 12 minggu sampai 24 minggu)"
+  },
+  {
+   "num": 7,
+   "title": "K3",
+   "definisi": "Diisi tanggal, tempat periksa, dan nama petugas yang melakukan pemeriksaan kesehatan Ibu hamil di fasyankes pada trimester kedua kehamilan (usia kehamilan di atas 12 minggu sampai 24 minggu)"
+  },
+  {
+   "num": null,
+   "title": "Trimester III (3 kali pada umur kehamilan diatas 24 - 40 minggu)",
+   "definisi": "Ibu hamil memeriksakan kesehatannya pada trimester ketiga (kehamilan diatas 24 - 40 minggu) sebanyak 3 kali"
+  },
+  {
+   "num": 8,
+   "title": "K4",
+   "definisi": "Diisi tanggal, tempat periksa, dan nama petugas yang melakukan pemeriksaakesehatan Ibu hamil di fasyankes pada trimester ketiga kehamilan (usia kehamilan di atas 24 minggu sampai 40 minggu)"
+  },
+  {
+   "num": 9,
+   "title": "K5",
+   "definisi": "Diisi tanggal, tempat periksa, dan nama petugas yang melakukan pemriksaan kesehatan Ibu hamil di fasyankes (dokter) pada trimester ketiga kehamilan (usia kehamilan di atas 24 minggu sampai 40 minggu)"
+  },
+  {
+   "num": 10,
+   "title": "K6",
+   "definisi": "Diisi tanggal, tempat periksa, dan nama petugas yang melakukan pemeriksaan kesehatan Ibu hamil di fasyankes pada trimester ketiga kehamilan (usia kehamilan di atas 24 minggu sampai 40 minggu)"
+  },
+  {
+   "num": 11,
+   "title": "Isi Piringku Ibu Hamil",
+   "definisi": "Ibu Hamil mengonsumsi makanan seimbang   aneka ragam dengan satu porsi tambahan (Makanan pokok, Lauk Pauk, Sayur dan Buah)"
+  },
+  {
+   "num": null,
+   "title": "TTD",
+   "definisi": "Pemberian Tablet Tambah Darah (TTD) setiap hari selama hamil"
+  },
+  {
+   "num": 12,
+   "title": "Ada",
+   "definisi": "Ibu hamil dapat menunjukkan TTD"
+  },
+  {
+   "num": 13,
+   "title": "Minum hari ini/dalam 24 jam terakhir",
+   "definisi": "Ibu hamil minum TTD dalam 24 jam terakhir"
+  },
+  {
+   "num": 14,
+   "title": "LiLA < 23,5 cm",
+   "definisi": "Hasil pengukuran Lingkar Lengan Atas ibu hamil < 23,5 cm (risiko Kurang Energi Kronis)"
+  },
+  {
+   "num": 15,
+   "title": "PMT untuk Bumil KEK",
+   "definisi": "Kader mengecek Ibu hamil mengonsumsi makanan tambahan (PMT)"
+  },
+  {
+   "num": 16,
+   "title": "Kelas Ibu Hamil",
+   "definisi": "Diisi tanggal, tempat dan pendamping ibu hamil pada saat mengikuti kelas ibu hamil"
+  },
+  {
+   "num": 17,
+   "title": "Melakukan skrining kesehatan jiwa",
+   "definisi": "Diisi tanggal, tempat dan nama petugas yang melakukan pemeriksaan kesehatan jiwa ibu nifas"
+  },
+  {
+   "num": 18,
+   "title": "Pemberian Edukasi/Kunjungan Nakes",
+   "definisi": "Diisi nama materi edukasi yang diberikan kader  kepada ibu hamil dan tulis tanggal melakukan edukasi"
+  },
+  {
+   "num": 19,
+   "title": "Paraf Ibu Hamil",
+   "definisi": "Paraf ibu hamil setelah dilakukan wawancara"
+  },
+  {
+   "num": 20,
+   "title": "Waktu Kunjungan",
+   "definisi": "Diisi Jumlah kunjungan kader ke rumah ibu hamil"
+  },
+  {
+   "num": 21,
+   "title": "Tanggal",
+   "definisi": "Diisi tanggal kader berkunjung ke rumah ibu hamil"
+  },
+  {
+   "num": 22,
+   "title": "Demam lebih dari dua hari",
+   "definisi": "Suhu tubuh ibu 38ᵒC atau lebih"
+  },
+  {
+   "num": 23,
+   "title": "Pusing/sakit kepala berat atau pandangan kabur dan atau disertai atau tanpa bengkak pada kaki, tangan dan wajah",
+   "definisi": "Jelas"
+  },
+  {
+   "num": 24,
+   "title": "Sulit tidur/cemas berlebih",
+   "definisi": "Jelas"
+  },
+  {
+   "num": 25,
+   "title": "Diare Berulang",
+   "definisi": "Jelas"
+  },
+  {
+   "num": 26,
+   "title": "Resiko TBC",
+   "definisi": "Batuk lebih dari 2 minggu atau kontak serumah dengan penderita TBC"
+  },
+  {
+   "num": 27,
+   "title": "Tidak ada gerakan janin",
+   "definisi": "Tidak ada gerakan janin atau kurang dari 10 kali dalam 12 jam"
+  },
+  {
+   "num": 28,
+   "title": "Jantung berdebar-debar atau nyeri di dada",
+   "definisi": "Jelas"
+  },
+  {
+   "num": 29,
+   "title": "Keluar cairan dari jalan lahir",
+   "definisi": "Keluar cairan sangat banyak dan berbau (air ketuban keluar sebelum waktunya dan atau perdarahan pada hamil muda/tua)"
+  },
+  {
+   "num": 30,
+   "title": "Sakit saat kencing",
+   "definisi": "Sakit saat kencing atau keluar keputihan atau gatal di daerah kemaluan"
+  },
+  {
+   "num": 31,
+   "title": "Nyeri perut hebat",
+   "definisi": "Jelas"
+  },
+  {
+   "num": 32,
+   "title": "Mengingatkan periksa ke Pustu/Posyandu Prima/Fasyankes",
+   "definisi": "Kader mengingatkan ibu hamil untuk memeriksakan kesehatannya ke Pustu/Fasyankes terdekat lainnya"
+  },
+  {
+   "num": 33,
+   "title": "Melaporkan ke Nakes",
+   "definisi": "Diisi tanggal kader melaporkan ke tenaga kesehatan di desa/kelurahan (Pustu) untuk di tindaklanjuti"
+  }
+ ],
+ "nifas": [
+  {
+   "num": null,
+   "title": "Nama Ibu",
+   "definisi": "Diisi nama ibu sesuai KTP"
+  },
+  {
+   "num": null,
+   "title": "Umur Ibu",
+   "definisi": "Diisi umur ibu, dihitung sesuai tanggal lahir ibu yang tertera di KTP dalam hitungan tahun"
+  },
+  {
+   "num": null,
+   "title": "Kelahiran anak ke",
+   "definisi": "Disii kelahiran anak ke berapa, dihitung sesuai dengan urutan anak yang ibu lahirkan baik hidup atau yang sudah meninggal"
+  },
+  {
+   "num": null,
+   "title": "Tanggal persalinan",
+   "definisi": "Diisi tanggal pada saat ibu melahirkan/bersalin"
+  },
+  {
+   "num": null,
+   "title": "Pukul",
+   "definisi": "Diisi waktu pada saat ibu melahirkan/bersalin"
+  },
+  {
+   "num": null,
+   "title": "Usia kehamilan saat persalinan",
+   "definisi": "Diisi usia kehamilan ibu pada saat melahirkan/besalin dalam hitungan minggu"
+  },
+  {
+   "num": null,
+   "title": "Penolong persalinan",
+   "definisi": "Diisi Orang/petugas yang menolong ibu pada saat melahirkan/bersalin (pilihan: bidan/dokter umum/dokter SpOG/lainnya disebutkan)"
+  },
+  {
+   "num": null,
+   "title": "Tempat persalinan",
+   "definisi": "Diisi tempat ibu melahirkan/bersalin (pilihan: Posyandu prima/Puksesmas/Rumah sakit/klinik/bidan praktik mandiri/ lainnya disebutkan)"
+  },
+  {
+   "num": null,
+   "title": "Keadaan Ibu pada saat melahirkan",
+   "definisi": "Diisi kondisi kesehatan ibu pada saat melahirkan/bersalin (pilihan: sehat/sakit seperti pendarahan/demam/kejang / lokhia berbau/lain-lain)"
+  },
+  {
+   "num": null,
+   "title": "Riwayat Inisiasi Menyusu Dini (IMD)",
+   "definisi": "berikan ceklis (√) jika ibu melakukan IMD atau tidak"
+  },
+  {
+   "num": 1,
+   "title": "Kunjungan tanggal",
+   "definisi": "Disii tanggal kader berkunjung ke rumah ibu bersalin/nifas"
+  },
+  {
+   "num": 2,
+   "title": "Pemantauan suhu tubuh",
+   "definisi": "Diisi hasil pemeriksaan suhu tubuh Ibu nifas"
+  },
+  {
+   "num": 3,
+   "title": "Ada buku KIA",
+   "definisi": "Ibu memiliki buku KIA dan dapat menunjukkan kepada kader"
+  },
+  {
+   "num": 4,
+   "title": "KF 1 (6-48 jam)",
+   "definisi": "Diisi tanggal dan tempat ibu memeriksakan kesehatannya (Fasyankes) 6-48 jam setelah bersalin"
+  },
+  {
+   "num": 5,
+   "title": "KF 2 (3-7 hari)",
+   "definisi": "Disii tanggal dan tempat ibu memeriksakan kesehatannya (Fasyankes) 3-7 hari setelah bersalin"
+  },
+  {
+   "num": 6,
+   "title": "KF 3 (8-28 hari)",
+   "definisi": "Diisi tanggal dan tempat ibu memeriksakan kesehatannya (Fasyankes) 8-28 hari setelah bersalin"
+  },
+  {
+   "num": 7,
+   "title": "KF 4 (29-42 hari)",
+   "definisi": "Diisi tanggal dan tempat ibu memeriksakan kesehatannya (Fasyankes) 29-42 hari setelah bersalin"
+  },
+  {
+   "num": 8,
+   "title": "Isi Piringku Ibu Menyusui",
+   "definisi": "Ibu menyusui mengonsumsi makanan seimbang   aneka ragam dengan satu porsi tambahan (Makanan pokok, Lauk Pauk, Sayur dan Buah)"
+  },
+  {
+   "num": null,
+   "title": "Kapsul Vitamin A",
+   "definisi": "Kapsul yang berwarna merah yang mengandung Vitamin A  dosis 200.000 IU yang diberikan oleh tenaga kesehatan Fasyankes kepada ibu bersalin/nifas 0-42 hari."
+  },
+  {
+   "num": 9,
+   "title": "Ada",
+   "definisi": "Ibu bersalin/nifas dapat menunjukkan kapsul vitamin A"
+  },
+  {
+   "num": 10,
+   "title": "Waktu minum",
+   "definisi": "Diisi tanggal Ibu minum kapsul Vitamin A"
+  },
+  {
+   "num": 11,
+   "title": "Menyusui",
+   "definisi": "Ibu nifas memberikan ASI sesuai kebutuhan dan kemauan bayi (tidak terbatas)"
+  },
+  {
+   "num": null,
+   "title": "Ya",
+   "definisi": "Ibu nifas memberikan ASI saja"
+  },
+  {
+   "num": null,
+   "title": "Tidak",
+   "definisi": "Ibu nifas tidak memberikan ASI saja"
+  },
+  {
+   "num": null,
+   "title": "KB Pasca Persalinan",
+   "definisi": "Ibu menggunakan jenis kontrasepsi setelah melahirkan/bersalin"
+  },
+  {
+   "num": 12,
+   "title": "Pil",
+   "definisi": "Jenis obat kontrasepsi yang diminum"
+  },
+  {
+   "num": 13,
+   "title": "Kondom",
+   "definisi": "Jenis alat kontrasepsi yang digunakan pada saat berhubungan badan baik yang digunakan oleh ibu atau suami"
+  },
+  {
+   "num": 14,
+   "title": "Suntik",
+   "definisi": "Jenis kontrasepsi yang dimasukkan ke tubuh ibu melalui suntikan"
+  },
+  {
+   "num": 15,
+   "title": "Implan/susuk",
+   "definisi": "Jenis alat kontrasepsi yang digunakan ibu dalam bentuk susuk"
+  },
+  {
+   "num": 16,
+   "title": "Lainnya",
+   "definisi": "Jenis alat/obat kontrasepsi lainnya selain yang disebutkan diatas seperti: Implant/IUD/Tubektomi/Vasektomi"
+  },
+  {
+   "num": 17,
+   "title": "Melakukan skrining kesehatan jiwa",
+   "definisi": "Diisi tanggal, tempat dan nama petugas yang melakukan pemeriksaan kesehatan jiwa ibu nifas"
+  },
+  {
+   "num": 18,
+   "title": "Pemberian edukasi/kunjungan nakes",
+   "definisi": "Diisi nama materi edukasi yang diberikan kader  kepada ibu nifas dan tulis tanggal melakukan edukasi"
+  },
+  {
+   "num": 19,
+   "title": "Paraf Ibu bersalin/nifas",
+   "definisi": "Paraf ibu bersalin/nifas setelah dilakukan wawancara"
+  },
+  {
+   "num": null,
+   "title": "Tanda bahaya setelah bersalin",
+   "definisi": "Ibu bersalin/nifas mengalami tanda-tanda sbb:"
+  },
+  {
+   "num": 20,
+   "title": "Demam",
+   "definisi": "Suhu tubuh ibu 38ᵒC atau lebih"
+  },
+  {
+   "num": 21,
+   "title": "Ada perasaan bersalah, mudah menangis, kehilangan minat, gelisah, gangguan tidur, gangguan konsentrasi",
+   "definisi": "Ibu merasakan perasaan bersalah, menangis tanpa sebab yang jelas, gelisah, tidak bisa tidur, dan tidak bisa konsentrasi"
+  },
+  {
+   "num": 22,
+   "title": "Tidak bisa BAK, BAK sedikit tapi sering, terasa panas, nyeri panggul, urin keluar tanpa disadari",
+   "definisi": "Jelas"
+  },
+  {
+   "num": 23,
+   "title": "Nafas pendek dan terengah-engah, nafas dangkal disertai nyeri dada, nafas berat, batuk lebih dari 2 minggu",
+   "definisi": "Jelas"
+  },
+  {
+   "num": 24,
+   "title": "Sakit kepala",
+   "definisi": "Jelas"
+  },
+  {
+   "num": 25,
+   "title": "Perdarahan (pembalut basah dalam 5 menit)",
+   "definisi": "Keluar darah dalam jumlah yang banyak melalui jalan lahir"
+  },
+  {
+   "num": 26,
+   "title": "Area sekitar kelamin bengkak atau nyeri atau ada luka terbuka",
+   "definisi": "Jelas"
+  },
+  {
+   "num": 27,
+   "title": "Keluar cairan  dari jalan lahir",
+   "definisi": "Jelas"
+  },
+  {
+   "num": 28,
+   "title": "Nyeri ulu hati",
+   "definisi": "Jelas"
+  },
+  {
+   "num": 29,
+   "title": "Pandangan kabur",
+   "definisi": "Jelas"
+  },
+  {
+   "num": 30,
+   "title": "Payudara bengkak kemerahan disertai nyeri, benjolan disertai nyeri ada keluhan dalam menyusui",
+   "definisi": "Jelas"
+  },
+  {
+   "num": 31,
+   "title": "Darah nifas berbau atau mengalir atau ada nyeri pada perut bawah",
+   "definisi": "Jelas"
+  },
+  {
+   "num": 32,
+   "title": "Keputihan berlebih, berwarna dan berbau",
+   "definisi": "Jelas"
+  },
+  {
+   "num": 33,
+   "title": "Jantung berdebar",
+   "definisi": "Jelas"
+  },
+  {
+   "num": 34,
+   "title": "Mengingatkan periksa ke Pustu/Posyandu Prima/Fasyankes",
+   "definisi": "Kader mengingatkan Ibu untuk memeriksakan kesehatannya ke Pustu atau Fasyankes terdekat lainnya"
+  },
+  {
+   "num": 35,
+   "title": "Melaporkan ke Nakes",
+   "definisi": "Diisi tanggal kader melaporkan ke tenaga kesehatan di desa/kelurahan (Pustu) untuk di tindaklanjuti"
+  }
+ ],
+ "bayi": [
+  {
+   "num": null,
+   "title": "Nama Anak",
+   "definisi": "Diisi nama Anak sesuai dengan akte kelahiran/keterangan lahir (buku KIA)"
+  },
+  {
+   "num": null,
+   "title": "Tempat/tanggal lahir",
+   "definisi": "Diisi nama lokasi/daerah tempat anak lahir dan tanggal lahir sesuai akte kelahiran anak/keterangan lahir (buku KIA)"
+  },
+  {
+   "num": null,
+   "title": "Jenis kelamin",
+   "definisi": "Coret (laki-laki atau perempuan) jika tidak sesuai dengan jenis kelamin anak yang tertera dalam akte kelahiran anak/ keteragan lahir (buku KIA)"
+  },
+  {
+   "num": 1,
+   "title": "Waktu Kunjungan",
+   "definisi": "Periode kunjungan kader ke rumah bayi 0-6 bulan"
+  },
+  {
+   "num": 2,
+   "title": "Tanggal",
+   "definisi": "Diisi tanggal kader berkunjung ke rumah bayi 0-6 bulan"
+  },
+  {
+   "num": 3,
+   "title": "Pemantauan suhu tubuh",
+   "definisi": "Diisi hasil pemeriksaan suhu tubuh bayi 0-6 bulan"
+  },
+  {
+   "num": 4,
+   "title": "Ada buku KIA",
+   "definisi": "Ibu bayi 0-6 bulan memiliki buku KIA dan dapat menunjukkan kepada kader"
+  },
+  {
+   "num": 5,
+   "title": "ASI Ekslusif",
+   "definisi": "Bayi 0-6 bulan mendapatkan ASI saja"
+  },
+  {
+   "num": null,
+   "title": "Ada",
+   "definisi": "Bayi 0-6 bulan mendapatkan kan ASI saja"
+  },
+  {
+   "num": null,
+   "title": "Tidak",
+   "definisi": "Bayi 0-6 bulan tidak mendapatkan ASI"
+  },
+  {
+   "num": 6,
+   "title": "Tanggal terakhir ditimbang dan diukur",
+   "definisi": "Disii tanggal terakhir, tempat dan petugas yang melakukan penimbangan BB dan pengukuran PB dan LK bayi 0-6 bulan"
+  },
+  {
+   "num": 7,
+   "title": "Hasil penimbangan dan pengukuran",
+   "definisi": "Diisi hasil penimbangan BB dan pengukuran PB, LK bayi 0-6 bulan yang terakhir dilakukan."
+  },
+  {
+   "num": null,
+   "title": "Kunjungan pemeriksaan bayi setelah dilahirkan (0-28 hari)",
+   "definisi": "Periode bayi melakukan pemeriksaan setelah dilahirkan (0-28 hari)"
+  },
+  {
+   "num": 8,
+   "title": "Pelayanan neonatal esensial setelah lahir (0-6 jam)",
+   "definisi": "Diisi tanggal, tempat dan petugas yang melakukan pemeriksaan bayi 0-6 jam setelah dilahirkan"
+  },
+  {
+   "num": 9,
+   "title": "KN 1 (6-48 jam)",
+   "definisi": "Diisi tanggal, tempat dan petugas yang melakukan pemeriksaan bayi 6-48 jam setelah dilahirkan"
+  },
+  {
+   "num": 10,
+   "title": "KN 2 (3-7 hari)",
+   "definisi": "Disii tanggal, tempat dan petugas yang melakukan pemeriksaan bayi 3-7 hari setelah dilahirkan"
+  },
+  {
+   "num": 11,
+   "title": "KN 3 (8-28 hari)",
+   "definisi": "Diisi tanggal, tempat dan petugas yang melakukan pemeriksaan bayi 8-28 hari setelah dilahirkan"
+  },
+  {
+   "num": null,
+   "title": "Imunisasi",
+   "definisi": "Status imunisasi bayi 0-6 bulan"
+  },
+  {
+   "num": 12,
+   "title": "Usia 0 bulan",
+   "definisi": "Usia bayi 0 bulan tepat diberikan imunisasi Hepatitis B (<24 jam), BCG, Polio Tetes 1"
+  },
+  {
+   "num": 13,
+   "title": "Usia 1 bulan",
+   "definisi": "Usia bayi 0 bulan tepat diberikan imunisasi  BCG, Polio Tetes 1"
+  },
+  {
+   "num": 14,
+   "title": "Usia 2 bulan",
+   "definisi": "Usia bayi 2 bulan tepat diberikan imunisasi DPT-HB-Hib 1, Polio Tetes 2, PCV 1, RV 1"
+  },
+  {
+   "num": 15,
+   "title": "Usia 3 bulan",
+   "definisi": "Usia bayi 3 bulan tepat diberikan imunisasi DPT-HB-Hib 2, Polio Tetes 3, PCV 2, RV 2"
+  },
+  {
+   "num": 16,
+   "title": "Usia 4 bulan",
+   "definisi": "Usia bayi 4 bulan tepat diberikan imunisasi DPT-HB-Hib 3, Polio Tetes 4, Polio Suntik (IPV) 1, RV 3"
+  },
+  {
+   "num": 17,
+   "title": "Pemberian edukasi/Kunjungan Nakes",
+   "definisi": "Diisi nama materi edukasi yang diberikan kader  kepada ibu bayi 0-6 bulan dan tulis tanggal melakukan edukasi (termasuk konseling menyusui dan PMBA)"
+  },
+  {
+   "num": 18,
+   "title": "Paraf Ibu bayi",
+   "definisi": "Ibu bayi memberikan paraf setelah wawancara dilakukan"
+  },
+  {
+   "num": 18,
+   "title": "Waktu kunjungan",
+   "definisi": "Periode kunjungan kader ke rumah bayi 0-6 bulan"
+  },
+  {
+   "num": 19,
+   "title": "Tanggal",
+   "definisi": "Diisi tanggal kader melakukan kunjungan"
+  },
+  {
+   "num": 20,
+   "title": "Napas",
+   "definisi": "Sesak/napas cepat/dada tertarik ke dalam"
+  },
+  {
+   "num": 21,
+   "title": "Aktifitas",
+   "definisi": "Tampak lemah/tidak bergerak/menangis atau merintih"
+  },
+  {
+   "num": 22,
+   "title": "Warna Kulit",
+   "definisi": "Tampak biru di sekitar mulut/tangan/kaki/tampak \nseperti marmer/tampak pucat/ada tanda-tanda memar di kulit."
+  },
+  {
+   "num": 23,
+   "title": "Hisapan Bayi",
+   "definisi": "Tampak lemah/tidak bergerak. Menangis seperti merintih tidak mau menghisap/menghisap lemah, muntah susu, muntah cairan warna hijau. Kecing kurang dari 6x/hari. Warna kencing kuning pekat"
+  },
+  {
+   "num": 24,
+   "title": "Kejang",
+   "definisi": "Mata mendelik/tangan menari/mulut mencucu/menangis melengking"
+  },
+  {
+   "num": 25,
+   "title": "Suhu Tubuh",
+   "definisi": "Terasa panas (suhu tubuh >38,5ᵒC) atau terasa dingin (suhu tubuh <36,5ᵒC)"
+  },
+  {
+   "num": 26,
+   "title": "Buang Air Besar (BAB)",
+   "definisi": "Belum BAB lebih dari 48 jam setelah lahir/tidak ada anus/BAB keluar dari lubang di sekitar anus/BAB seperti dempul/BAB lebih sering dan lebih encer"
+  },
+  {
+   "num": 27,
+   "title": "Jumlah dan Warna Air Kencing",
+   "definisi": "Jumlah sedikit atau tidak kencing selama 6 jam, warna kuning pekat, kecoklatan atau warna lainnya"
+  },
+  {
+   "num": 28,
+   "title": "Tali Pusat",
+   "definisi": "Kemerahan di sekitar tali pusat/bernanah/berbau"
+  },
+  {
+   "num": 29,
+   "title": "Mata",
+   "definisi": "Mata merah/ada kotoran/bernanah"
+  },
+  {
+   "num": 30,
+   "title": "Kulit",
+   "definisi": "Ada bintil-bintil isi air/bintil-bintil isi nanah"
+  },
+  {
+   "num": 31,
+   "title": "Imunisasi",
+   "definisi": "Belum mendapat imunisasi Hepatitis B0/Belum mendapat imunisiasi BCG"
+  },
+  {
+   "num": 32,
+   "title": "Mengingatkan periksa ke Pustu/ Posyandu Prima/Fasyankes",
+   "definisi": "Kader mengingatkan Ibu bayi 0-6 bulan untuk memeriksakan kesehatan bayinya ke Pustu atau Fasyankes terdekat lainnya"
+  },
+  {
+   "num": 33,
+   "title": "Melaporkan ke Nakes",
+   "definisi": "Diisi tanggal kader melaporkan ke tenaga kesehatan di desa/kelurahan (Pustu) untuk di tindaklanjuti"
+  }
+ ],
+ "balita": [
+  {
+   "num": null,
+   "title": "Nama Anak",
+   "definisi": "Diisi nama anak sesuai dengan akte kelahiran/keterangan lahir (buku KIA)"
+  },
+  {
+   "num": null,
+   "title": "Tempat/ Tanggal lahir",
+   "definisi": "Disi tempat/ tanggal lahir sesuai Kartu Keluarga / KIA"
+  },
+  {
+   "num": null,
+   "title": "Jenis kelamin",
+   "definisi": "Coret (laki-laki atau perempuan) jika tidak sesuai dengan jenis kelamin anak yang tertera dalam akte kelahiran anak/ keteragan lahir (buku KIA)"
+  },
+  {
+   "num": 1,
+   "title": "Waktu Kunjungan",
+   "definisi": "Periode kunjungan kader ke rumah usia bayi 6 bulan s.d anak 71 bulan (6 tahun kurang 1 bulan)"
+  },
+  {
+   "num": 2,
+   "title": "Tanggal",
+   "definisi": "Diisi tanggal kader melakukan kunjungan ke rumah bayi 6 bulan s.d  anak 71 bulan (6 tahun kurang 1 bulan)"
+  },
+  {
+   "num": 3,
+   "title": "Pemantauan suhu tubuh",
+   "definisi": "Diisi hasil pemeriksaan suhu tubuh bayi 6 bulan s.d anak 71 bulan (6 tahun kurang 1 bulan)"
+  },
+  {
+   "num": 4,
+   "title": "Ada buku KIA",
+   "definisi": "Bayi usia 6 bulan s.d  s.d anak 81 bulan (7 tahun kurang 1 bulan) memiliki Buku KIA dan dapat menunjukkan kepada kader"
+  },
+  {
+   "num": 5,
+   "title": "Tanggal terakhir menimbang dan mengukur",
+   "definisi": "Diisi tanggal, tempat dan petugas bayi 6 bulan s.d  s.d 81 bulan (7 tahun kurang 1 bulan) melakukan penimbangan BB dan pengukuran PB/TB terakhir"
+  },
+  {
+   "num": 6,
+   "title": "Hasil penimbangan dan pengukuran",
+   "definisi": "Hasil penimbangan BB dan pengukuran TB yang terakhir dilakukan."
+  },
+  {
+   "num": null,
+   "title": "BB",
+   "definisi": "Diisi hasil penimbangan berat badan"
+  },
+  {
+   "num": null,
+   "title": "PB/TB",
+   "definisi": "Diisi hasil pengukuran tinggi badan"
+  },
+  {
+   "num": null,
+   "title": "LK",
+   "definisi": "Diisikan hasil pengukuran lingkar kepala"
+  },
+  {
+   "num": null,
+   "title": "Imunisasi",
+   "definisi": "Status imunisasi bayi 6 bulan s.d. 6 tahun"
+  },
+  {
+   "num": 7,
+   "title": "Usia 0 bulan",
+   "definisi": "Usia bayi 0 bulan tepat diberikan imunisasi Hepatitis B (<24 jam), BCG, Polio Tetes 1"
+  },
+  {
+   "num": 8,
+   "title": "Usia 1 bulan",
+   "definisi": "Usia bayi 0 bulan tepat diberikan imunisasi  BCG, Polio Tetes 1"
+  },
+  {
+   "num": 9,
+   "title": "Usia 2 bulan",
+   "definisi": "Usia bayi 2 bulan tepat diberikan imunisasi DPT-HB-Hib 1, Polio Tetes 2, PCV 1, RV 1"
+  },
+  {
+   "num": 10,
+   "title": "Usia 3 bulan",
+   "definisi": "Usia bayi 3 bulan tepat diberikan imunisasi DPT-HB-Hib 2, Polio Tetes 3, PCV 2, RV 2"
+  },
+  {
+   "num": 11,
+   "title": "Usia 4 bulan",
+   "definisi": "Usia bayi 4 bulan tepat diberikan imunisasi DPT-HB-Hib 3, Polio Tetes 4, Polio Suntik (IPV) 1, RV 3"
+  },
+  {
+   "num": 12,
+   "title": "Usia 9 bulan",
+   "definisi": "Usia bayi 9 bulan tepat diberikan imunisasi Campak-Rubella, Polio Suntik (IPV) 2"
+  },
+  {
+   "num": 13,
+   "title": "Usia 10 bulan",
+   "definisi": "Usia bayi 10 bulan tepat diberikan imunisasi Japanese Encephalitis (JE)"
+  },
+  {
+   "num": 14,
+   "title": "Usia 12 bulan",
+   "definisi": "Usia bayi 12 bulan tepat diberikan imunisasi PCV3"
+  },
+  {
+   "num": 15,
+   "title": "Usia 18 bulan",
+   "definisi": "Usia bayi 18 bulan yang tepat diberikan imunisasi DPT-HB-Hib Lanjutan, dan Campak-Rubella lanjutan"
+  },
+  {
+   "num": null,
+   "title": "Pemberian Makanan Pendamping-ASI \nkaya protein hewani",
+   "definisi": "Makanan Pendamping ASI yang diberikan kepada bayi 6 bulan – 2 tahun"
+  },
+  {
+   "num": 16,
+   "title": "Makanan pokok (beras/kentang/jagung)",
+   "definisi": "Bayi usia 6 bulan- 2 tahun diberikan makanan pokok (beras/ kentang/jagung)"
+  },
+  {
+   "num": 17,
+   "title": "Makanan sumber protein hewan (telur/ikan/ ayam/daging/udang/hati/susu dan produk olahan)",
+   "definisi": "Bayi usia 6 bulan- 2 tahun diberikan Makanan Sumber Protein  Hewani (telur/ ikan / ayam / daging sapi. dll)"
+  },
+  {
+   "num": 18,
+   "title": "Makanan Sumber Protein Nabati (tahu / tempe / kacang hijau / kacang polong)",
+   "definisi": "Bayi usia 6 bulan-  2 tahun diberikan Makanan Sumber Protein Nabati (tahu / tempe /kacang hijau /kacang polong)"
+  },
+  {
+   "num": 19,
+   "title": "Sumber lemak (Minyak/ Santan)",
+   "definisi": "Bayi usia 6 bulan-  2 tahun diberikan Makanan yang mengandung lemak/santan"
+  },
+  {
+   "num": 20,
+   "title": "Buah dan sayur",
+   "definisi": "Bayi usia 6 bulan- 2 tahun diberikan buah dan sayur"
+  },
+  {
+   "num": null,
+   "title": "Obat cacing",
+   "definisi": "Status anak diatas 1 tahun mendapatkan obat cacing"
+  },
+  {
+   "num": 21,
+   "title": "Ada",
+   "definisi": "Bayi usia diatas 1 tahun mendapatkan obat cacing"
+  },
+  {
+   "num": 22,
+   "title": "Waktu Minum",
+   "definisi": "Diisikan tanggal waktu minum obat cacing"
+  },
+  {
+   "num": null,
+   "title": "Kapsul Vitamin A",
+   "definisi": "Status bayi usia 6 bulan- 6 tahun diberikan vitamin A"
+  },
+  {
+   "num": 23,
+   "title": "Usia 6-11 bulan (kapsul biru)",
+   "definisi": "Bayi usia 6 – 11 bulan mendapatkan kapsul vitamin A (kapsul biru)"
+  },
+  {
+   "num": 24,
+   "title": "Usia >11 bulan (kapsul merah)",
+   "definisi": "Bayi usia > 11 bulan mendapatkan kapsul vitamin A (kapsul merah)"
+  },
+  {
+   "num": 25,
+   "title": "Ada",
+   "definisi": "Bayi usia diatas 1 tahun dengan masalah gizi mendapatkan MT Pangan Lokal"
+  },
+  {
+   "num": 26,
+   "title": "Kepatuhan konsumsi MT Pangan Lokal",
+   "definisi": "Kepatuhan Bayi diatas 1 tahun dengan malah gizi mengkonsumsi Makanan Tambahan (MT) Pangan Lokal"
+  },
+  {
+   "num": 27,
+   "title": "Pemberian Edukasi/ Kunjungan Nakes",
+   "definisi": "Diisi nama materi edukasi yang diberikan kader  kepada ibu bayi 6 - 71 bulan (6 tahun kurang 1 bulan) dan tulis tanggal melakukan edukasi (termasuk konseling menyusui dan PMBA)"
+  },
+  {
+   "num": 28,
+   "title": "Paraf Ibu Balita/Apras",
+   "definisi": "Ibu balita 6 - 71 bulan (6 tahun kurang 1 bulan)"
+  },
+  {
+   "num": 29,
+   "title": "Waktu kunjungan",
+   "definisi": "Periode kunjungan kader ke rumah 6 bulan s.d  71 bulan (6 tahun kurang 1 bulan)"
+  },
+  {
+   "num": null,
+   "title": "Tanggal",
+   "definisi": "Diisi tanggal kader melakukan kunjungan"
+  },
+  {
+   "num": 30,
+   "title": "Napas",
+   "definisi": "Sesak/napas cepat/dada tertarik ke dalam"
+  },
+  {
+   "num": 31,
+   "title": "Batuk",
+   "definisi": "Batuk dengan bunyi grok..grok…/mengi/menangis meringis"
+  },
+  {
+   "num": 32,
+   "title": "Demam",
+   "definisi": "Terasa panas (suhu tubuh >38,5ᵒC) demam denga kejang/demam dengan tanda pendarahan (mimisan/gusi berdarah/ muntah kopi/BAB hitam)"
+  },
+  {
+   "num": 33,
+   "title": "Diare",
+   "definisi": "BAB lebih sering dan lebih encer daria biasanya disertai dengan mata cekung/haus minum terus dengan lahap/diare disertai darah"
+  },
+  {
+   "num": 34,
+   "title": "Jumlah dan Warna aAir Kencing",
+   "definisi": "Jumlah sedikit atau tidak kencing selama 6 jam, warna kuning pekat, kecoklatan atau warna lainnya"
+  },
+  {
+   "num": 35,
+   "title": "Warna Kulit",
+   "definisi": "Tampak biru di sekitar mulut/tangan/kaki/tampak seperti mermer/tampak pucat atau ada tanda-tanda memar di kulit"
+  },
+  {
+   "num": 36,
+   "title": "Aktifitas",
+   "definisi": "Tampak lemah atau tidak bergerak atau menangis seperti merintih"
+  },
+  {
+   "num": 37,
+   "title": "Hisapan Bayi",
+   "definisi": "Tampak lemah atau tidak bergerak atau menangis seperti merintih tidak mau menghisap atau menghisap lemah, muntah susu, muntah cairan warna hijau. Kencing kurang dari 6 kali/hari. Warna kencing kuning pekat"
+  },
+  {
+   "num": 38,
+   "title": "Pemberian Makanan",
+   "definisi": "Anak tidak mau makan dan atau minum. Berat badan tidak naik sesuai pertumbuhan"
+  },
+  {
+   "num": 39,
+   "title": "Mengingatkan periksa ke Pustu/Posyandu Prima/Fasyankes",
+   "definisi": "Kader mengingatkan Ibu bayi 0-6 bulan untuk memeriksakan kesehatan bayinya ke Pustu atau Fasyankes terdekat lainnya"
+  },
+  {
+   "num": 40,
+   "title": "Melaporkan ke Nakes",
+   "definisi": "Diisi tanggal kader melaporkan ke tenaga kesehatan di desa/kelurahan (Pustu) untuk di tindaklanjuti"
+  }
+ ],
+ "remaja": [
+  {
+   "num": null,
+   "title": "Nama",
+   "definisi": "Diisi nama sesuai Kartu Keluarga / KTP"
+  },
+  {
+   "num": null,
+   "title": "Tempat / Tanggal Lahir",
+   "definisi": "Diisi tempat /tanggal lahir sesuai Kartu Keluarga / KTP"
+  },
+  {
+   "num": null,
+   "title": "Jenis Kelamin",
+   "definisi": "Coret (laki-laki atau perempuan) jika tidak sesuai dengan jenis kelamin anak yang tertera dalam akte kelahiran anak/ keteragan lahir (buku KIA)"
+  },
+  {
+   "num": 1,
+   "title": "Waktu Kunjungan",
+   "definisi": "Periode kunjungan kader ke rumah usia sekolah / remaja"
+  },
+  {
+   "num": 2,
+   "title": "Tanggal",
+   "definisi": "Diisi tanggal kader melakukan kunjungan ke rumah usia sekolah/ remaja"
+  },
+  {
+   "num": 3,
+   "title": "Pemantauan suhu tubuh",
+   "definisi": "Diisi hasil pemeriksaan suhu tubuh Ibu anak usia sekolah/remaja"
+  },
+  {
+   "num": 4,
+   "title": "Tanggal terakhir menimbang dan mengukur",
+   "definisi": "Diisi tanggal terakhir usia sekolah/remaja yang dikunjungi melakukan penimbangan dan pengukuran badan"
+  },
+  {
+   "num": 5,
+   "title": "Isi Piringku Usia Sekolah/  Remaja",
+   "definisi": "Anak Usia Sekolah/Remaja mengonsumsi makanan seimbang   aneka ragam (Makanan pokok, Lauk Pauk, Sayur dan Buah)"
+  },
+  {
+   "num": 6,
+   "title": "Hasil penimbangan dan pengukuran",
+   "definisi": "Hasil penimbangan BB dan pengukuran TB yang terakhir dilakukan."
+  },
+  {
+   "num": null,
+   "title": "BB",
+   "definisi": "Diisi hasil penimbangan berat badan usia sekolah/remaja"
+  },
+  {
+   "num": null,
+   "title": "PB/TB",
+   "definisi": "Diisi hasil pengukuran tinggi badan usia sekolah/remaja"
+  },
+  {
+   "num": 7,
+   "title": "Ada TTD",
+   "definisi": "Usia sekolah/remaja yang dikunjungi dapat menunjukkan kepada kader"
+  },
+  {
+   "num": 8,
+   "title": "Minum TTD hari ini/ dalam 1 minggu terakhir",
+   "definisi": "Remaja putri minum TTD hari ini / dalam 24 jam (Ya/Tidak)"
+  },
+  {
+   "num": 9,
+   "title": "Pemeriksaan anemia satu tahun terakhir",
+   "definisi": "Diisi tanggal, tempat dan hasil remaja putri diperiksa Haemoglobin darah dalam satu tahun terakhir"
+  },
+  {
+   "num": 10,
+   "title": "Perilaku Merokok",
+   "definisi": "Usia sekolah/remaja yang dikunjungi memiliki kebiasaan/ perilaku merokok"
+  },
+  {
+   "num": null,
+   "title": "Aktif",
+   "definisi": "berperilaku merokok"
+  },
+  {
+   "num": null,
+   "title": "Pasif",
+   "definisi": "tidak merokok tetapi berada dilingkungan perokok/menghisap asap rokok"
+  },
+  {
+   "num": null,
+   "title": "Remaja ≥15 tahun Pemeriksaan PTM*) satu tahun terakhir",
+   "definisi": "Remaja usia ≥15 tahun yang melakukan pemeriksaan Penyakit Tidak Menular (PTM) satu tahun terakhir"
+  },
+  {
+   "num": 11,
+   "title": "Tekanan Darah",
+   "definisi": "Pemeriksaan tekanan darah satu tahun terakhir"
+  },
+  {
+   "num": null,
+   "title": "Tanggal",
+   "definisi": "Diisi tanggal skrining/pemeriksaan gula darah satu tahun terakhir"
+  },
+  {
+   "num": null,
+   "title": "Tempat",
+   "definisi": "Diisi tempat skrining/pemeriksaan gula darah satu tahun terakhir"
+  },
+  {
+   "num": null,
+   "title": "Hasil",
+   "definisi": "Diisi hasil skrining/pemeriksaan gula darah satu tahun terakhir"
+  },
+  {
+   "num": 12,
+   "title": "Gula Darah",
+   "definisi": "Pemeriksaan gula darah satu tahun terakhir"
+  },
+  {
+   "num": null,
+   "title": "Tanggal",
+   "definisi": "Diisi tanggal skrining/pemeriksaan tekanan darah satu tahun terakhir"
+  },
+  {
+   "num": null,
+   "title": "Tempat",
+   "definisi": "Diisi tempat skrining/pemeriksaan tekanan darah satu tahun terakhir"
+  },
+  {
+   "num": null,
+   "title": "Hasil",
+   "definisi": "Diisi hasil skrining/pemeriksaan tekanan darah satu tahun terakhir"
+  },
+  {
+   "num": 13,
+   "title": "Melakukan skring kesehatan jiwa",
+   "definisi": "Diisi tanggal, tempat dan nama petugas yang melakukan pemeriksaan kesehatan jiwa usia sekolah/remaja"
+  },
+  {
+   "num": 14,
+   "title": "Pemberian Edukasi / Kunjungan Nakes",
+   "definisi": "Diisi nama materi edukasi yang diberikan kader  kepada   usia sekolah/remaja"
+  },
+  {
+   "num": 15,
+   "title": "Paraf remaja",
+   "definisi": "Paraf remaja setelah wawancara / kunjungan rumah selesai"
+  }
+ ],
+ "dewasa": [
+  {
+   "num": null,
+   "title": "Nama",
+   "definisi": "Diisi nama sesuai KTP"
+  },
+  {
+   "num": null,
+   "title": "Tempat/ Tanggal Lahir",
+   "definisi": "Diisi tempat/ tanggal lahir sesuai KTP"
+  },
+  {
+   "num": null,
+   "title": "Jenis Kelamin",
+   "definisi": "Coret salah satu Laki-laki/ Perempuan"
+  },
+  {
+   "num": null,
+   "title": "Riwayat Penyakit keluarga",
+   "definisi": "Lingkari satu atau lebih penyakit tidak menular yang pernah/dialami oleh  anggota keluarga/orang tua sasaran"
+  },
+  {
+   "num": 1,
+   "title": "Waktu Kunjungan",
+   "definisi": "Periode kunjungan kader ke rumah usia dewasa"
+  },
+  {
+   "num": 2,
+   "title": "Tanggal",
+   "definisi": "Diisi tanggal kader berkunjung ke rumah usia dewasa"
+  },
+  {
+   "num": 3,
+   "title": "Pemantauan suhu tubuh",
+   "definisi": "Diisi hasil pemeriksaan suhu tubuh Ibu anak usia dewasa"
+  },
+  {
+   "num": 4,
+   "title": "Isi Piringku Usia Sekolah/  Remaja",
+   "definisi": "Usia dewasa mengonsumsi makanan seimbang   aneka ragam (Makanan pokok, Lauk Pauk, Sayur dan Buah)"
+  },
+  {
+   "num": null,
+   "title": "Pemeriksaan Tekanan Darah",
+   "definisi": "usia dewasa diperiksa tekanan darahnya"
+  },
+  {
+   "num": 5,
+   "title": "Pemeriksaan Tekanan Darah Satu Tahun Terakhir",
+   "definisi": "Diisi tanggal, tempat, dan hasil pemeriksaan tekanan darah dalam setahun terakhir"
+  },
+  {
+   "num": 6,
+   "title": "Terdiagnosa Tekanan Darah Tinggi/Hipertensi",
+   "definisi": "Diisi tanggal pertama kali usia dewasa didiagnosa/dinyatakan sebagai penderita hipertensi"
+  },
+  {
+   "num": null,
+   "title": "Terdiagnosa Tekanan Darah Tinggi/Hipertensi",
+   "definisi": "usia dewasa yang terdiagnosa menderita penyakit Darah Tinggi/ Hipertensi"
+  },
+  {
+   "num": 7,
+   "title": "Pemeriksaan sebulan terakhir",
+   "definisi": "Diisi tanggal, tempat  dan hasil pemeriksaan tekanan darah 1 bulan terakhir"
+  },
+  {
+   "num": 8,
+   "title": "Ada Obat Hipertensi",
+   "definisi": "usia dewasa dapat menunjukkan obat hipertensi yang dikonsumsi kepada kader"
+  },
+  {
+   "num": 9,
+   "title": "Sudah Minum Obat Hari Ini/24 Jam Terakhir",
+   "definisi": "usia dewasa minum obat hipertensi dalam 24 jam terakhir"
+  },
+  {
+   "num": null,
+   "title": "Pemeriksaan Kadar Gula Darah",
+   "definisi": "usia dewasa diperiksa kadar gula darahnya"
+  },
+  {
+   "num": 10,
+   "title": "Pemeriksaan Gula Darah dalam Satu Tahun Terakhir",
+   "definisi": "Diisi tanggal, tempat  dan hasil pemeriksaan gula darah dalam setahun terakhir"
+  },
+  {
+   "num": 11,
+   "title": "Terdiagnosa DM",
+   "definisi": "Diisi tanggal pertama kali usia dewasa didiagnosa/dinyatakan sebagai penderita Diabetes Melitus"
+  },
+  {
+   "num": null,
+   "title": "Terdiagnosa Gula Darah Tinggi/Diabetes Melitus",
+   "definisi": "usia dewasa yang terdiagnosa menderita penyakit Gula Darah Tinggi"
+  },
+  {
+   "num": 12,
+   "title": "Pemeriksaan sebulan terakhir",
+   "definisi": "Diisi tanggal, tempat  dan hasil pemeriksaan gula darah 1 bulan terakhir terakhir"
+  },
+  {
+   "num": 13,
+   "title": "Ada Obat DM",
+   "definisi": "usia dewasa dapat menunjukkan obat DM yang dikonsumsi kepada kader"
+  },
+  {
+   "num": 14,
+   "title": "Sudah Minum Obat Hari Ini/ 24 Jam Terakhir",
+   "definisi": "usia dewasa minum obat DM dalam 24 jam terakhir"
+  },
+  {
+   "num": 15,
+   "title": "Perilaku Merokok",
+   "definisi": "Usia dewasa yang dikunjungi memiliki kebiasaan/perilaku merokok"
+  },
+  {
+   "num": null,
+   "title": "Aktif",
+   "definisi": "berperilaku merokok"
+  },
+  {
+   "num": null,
+   "title": "Pasif",
+   "definisi": "(tidak merokok tetapi berada dilingkungan perokok/menghisap asap rokok"
+  },
+  {
+   "num": null,
+   "title": "Kontrasepsi yang digunakan",
+   "definisi": "Jenis kontrasepsi yang digunakan usia dewasa saat kunjungan rumah usia dewasa:\n•\tJika belum, bagi PUS yang masuk kelompok 4 T (usia <20 tahun, Usia > 35 tahun, anak > 3, usia anak terakhir < 2 tahun), dan tidak menginginkan kehamilan bisa diberikan edukasi pentingnya penggunaan salah satu metode kontrasepsi"
+  },
+  {
+   "num": 16,
+   "title": "Pil",
+   "definisi": "Jenis obat kontrasepsi yang digunakan dalam bentuk pil"
+  },
+  {
+   "num": 17,
+   "title": "Kondom",
+   "definisi": "Jenis alat kontrasepsi yang digunakan oleh pasangan usia subur laki-laki dalam bentuk kondom"
+  },
+  {
+   "num": 18,
+   "title": "Suntik",
+   "definisi": "Jenis alat kontrasepsi yang digunakan oleh pasangan usia subur perempuan dalam bentuk suntik"
+  },
+  {
+   "num": 19,
+   "title": "Implan/susuk",
+   "definisi": "Jenis alat kontrasepsi yang digunakan oleh pasangan usia subur perempuan dalam bentuk susuk"
+  },
+  {
+   "num": 20,
+   "title": "Lainnya",
+   "definisi": "Jenis alat/ obat kontrasepsi lainnya selain yang disebutkan di atas seperti: implan/ IUD/ Tubektomi/ Vasektomi"
+  },
+  {
+   "num": 21,
+   "title": "Melakukan skrining kesehatan jiwa",
+   "definisi": "Diisi tanggal, tempat dan nama petugas yang melakukan pemeriksaan kesehatan jiwa usia dewasa"
+  },
+  {
+   "num": 20,
+   "title": "Pemberian Edukasi/ Kunjungan Nakes",
+   "definisi": "Diisi nama materi edukasi yang diberikan kader  kepada usia dewasa"
+  },
+  {
+   "num": 21,
+   "title": "Paraf Usia dewasa",
+   "definisi": "Paraf usia dewasa setelah dilakukan wawancara"
+  }
+ ],
+ "lansia": [
+  {
+   "num": null,
+   "title": "Nama",
+   "definisi": "Diisi nama sesuai KTP"
+  },
+  {
+   "num": null,
+   "title": "Tempat/ Tanggal Lahir",
+   "definisi": "Diisi tempat/tanggal lahir sesuai KTP"
+  },
+  {
+   "num": null,
+   "title": "Jenis Kelamin",
+   "definisi": "Coret salah satu Laki-laki/ Perempuan"
+  },
+  {
+   "num": 1,
+   "title": "Waktu Kunjungan",
+   "definisi": "Periode kunjungan kader ke rumah Lansia"
+  },
+  {
+   "num": 2,
+   "title": "Tanggal",
+   "definisi": "Diisi tanggal kader berkunjung ke rumah Lansia"
+  },
+  {
+   "num": 3,
+   "title": "Pemantauan suhu tubuh",
+   "definisi": "Diisi hasil pemeriksaan suhu tubuh Ibu anak usia dewasa"
+  },
+  {
+   "num": null,
+   "title": "Pemeriksaan Tekanan Darah",
+   "definisi": "Lansia diperiksa tekanan darahnya"
+  },
+  {
+   "num": 4,
+   "title": "Pemeriksaan Tekanan Darah Terakhir",
+   "definisi": "Diisi tanggal, tempat  dan hasil pemeriksaan tekanan darah terakhir"
+  },
+  {
+   "num": 5,
+   "title": "Terdiagnosa Tekanan Darah Tinggi/ Hipertensi",
+   "definisi": "Diisi tanggal pertama kali Lansia didiagnosa/dinyatakan sebagai penderita hipertensi"
+  },
+  {
+   "num": null,
+   "title": "TerdiagnosaTekanan Darah Tinggi/Hipertensi",
+   "definisi": "Status minum obat hipertensi"
+  },
+  {
+   "num": 6,
+   "title": "Pemeriksaan tekanan darah satu bulan terakhir",
+   "definisi": "Lansia melakukan pemeriksaan kadar gula darah tinggi"
+  },
+  {
+   "num": 7,
+   "title": "Ada Obat Hipertensi",
+   "definisi": "Lansia dapat menunjukkan obat hipertensi yang dikonsumsi kepada kader"
+  },
+  {
+   "num": 8,
+   "title": "Sudah Minum Obat Hari Ini/ 24 Jam Terakhir",
+   "definisi": "Lansia minum obat hipertensi dalam 24 jam terakhir"
+  },
+  {
+   "num": null,
+   "title": "Pemeriksaan Kadar Gula Darah",
+   "definisi": "Lansia diperiksa kadar gula darahnya"
+  },
+  {
+   "num": 9,
+   "title": "Pemeriksaan Gula Darah Terakhir",
+   "definisi": "Diisi tanggal, tempat  dan hasil pemeriksaan gula darah terakhir"
+  },
+  {
+   "num": 10,
+   "title": "Terdiagnosa DM",
+   "definisi": "Diisi tanggal pertama kali Lansia didiagnosa/dinyatakan sebagai penderita Diabetes Melitus"
+  },
+  {
+   "num": null,
+   "title": "Terdiagnosa Gula Darah Tinggi/Diabetes Melitus",
+   "definisi": "Status minum obat hipertensi"
+  },
+  {
+   "num": 11,
+   "title": "Pemeriksaan gula darah satu bulan terakhir",
+   "definisi": "Diisi tanggal, tempat  dan hasil pemeriksaan gula darah 1 bulan terakhir"
+  },
+  {
+   "num": 12,
+   "title": "Ada Obat DM",
+   "definisi": "Lansia dapat menunjukkan obat DM yang dikonsumsi kepada kader"
+  },
+  {
+   "num": 13,
+   "title": "Sudah Minum Obat Hari Ini/ 24 Jam Terakhir",
+   "definisi": "Lansia minum obat DM dalam 24 jam terakhir"
+  },
+  {
+   "num": null,
+   "title": "Skrining Geriatri",
+   "definisi": "Jenis skrining geriatri yang dilakukan pada lansia"
+  },
+  {
+   "num": 14,
+   "title": "Pemeriksaan skrining aktifitas kehidupan sehari-hari (AKS)",
+   "definisi": "Diisi tanggal dan tempat pemeriksaan skrining AKS"
+  },
+  {
+   "num": 15,
+   "title": "Pemeriksaan Skrining Lansia Sederhana (SKILAS)",
+   "definisi": "Tulis tanggal dan tempat pemeriksaan skrining lansia sederhana (SKILAS)"
+  },
+  {
+   "num": 16,
+   "title": "Perilaku Merokok",
+   "definisi": "Lansia yang dikunjungi memiliki kebiasaan/perilaku merokok"
+  },
+  {
+   "num": null,
+   "title": "Aktif",
+   "definisi": "berperilaku merokok"
+  },
+  {
+   "num": null,
+   "title": "Pasif",
+   "definisi": "(tidak merokok tetapi berada dilingkungan perokok/menghisap asap rokok"
+  },
+  {
+   "num": 17,
+   "title": "Melakukan skrining kesehatan jiwa",
+   "definisi": "Diisi tanggal, tempat dan nama petugas yang melakukan pemeriksaan kesehatan jiwa usia dewasa"
+  },
+  {
+   "num": 18,
+   "title": "Pemberian Edukasi/ Kunjungan Nakes",
+   "definisi": "Diisi nama materi edukasi yang diberikan kader  kepada lansia"
+  },
+  {
+   "num": 19,
+   "title": "Paraf Lansia",
+   "definisi": "Paraf lansia setelah dilakukan wawancara"
+  }
+ ],
+ "tbc": [
+  {
+   "num": null,
+   "title": "Nama",
+   "definisi": "Diisi nama sesuai KTP Obat TBC jelas"
+  },
+  {
+   "num": null,
+   "title": "Tempat/ Tanggal Lahir",
+   "definisi": "Diisi tempat/tanggal lahir sesuai KTP 9 Ada Obat TBC Pasien/terduga TBC/kontak erat pasien TBC diberikan obat TBC dan dapat menunjukkan obatnya"
+  },
+  {
+   "num": null,
+   "title": "Jenis Kelamin",
+   "definisi": "Coret salah satu Laki-laki/ Perempuan 10 Sudah minum obat hari ini/24 jam terakhir Pasien/terduga TBC/kontak erat pasien TBC minum obat dalam 24 jam terakhir"
+  },
+  {
+   "num": 11,
+   "title": "Pengawas Minum Obat (PMO)",
+   "definisi": "Diisi nama orang yang menjadi PMO"
+  },
+  {
+   "num": 1,
+   "title": "Waktu Kunjungan",
+   "definisi": "Periode kunjungan kader ke rumah sasaran terduga TBC 13 Pemberian edukasi/kunjungan Nakes Diisi nama materi edukasi yang diberikan kader  kepada  terduga TBC/pasien TBC"
+  },
+  {
+   "num": 2,
+   "title": "Tanggal",
+   "definisi": "Diisi tanggal kader berkunjung ke rumah sasaran terduga TBC 14 Mengingatkan periksa ke Pustu/Posyandu Prima/Fasyankes Kader mengingatkan terduga TBC/pasien TBC untuk memeriksakan kesehatannya ke Pustu/Fasyankes"
+  },
+  {
+   "num": null,
+   "title": "Skrining TBC",
+   "definisi": "wawancara untuk mengetahui apakah sasaran memiliki gejala TBC, terdiagnosa TBC dan kontak erat dengan pasien TBC 15 Melaporkan ke Nakes Kader melaporkan kepada Nakes Pustu"
+  },
+  {
+   "num": 3,
+   "title": "Batuk terus menerus",
+   "definisi": "Batuk terus menerus (berdahak maupun kering) 16 Paraf terduga/pasien TBC Paraf terduga TBC/pasien TBC setelah dilakukan wawancara"
+  },
+  {
+   "num": 4,
+   "title": "Demam  ≥ 2 minggu",
+   "definisi": "Demam ≥ 2 minggu dan/atau berulang tanpa sebab yang jela. Demam umumnya tidak tinggi"
+  },
+  {
+   "num": 5,
+   "title": "BB tidak naik atau turun  dalam 2 bulan berturut-turut",
+   "definisi": "Berat Badan (BB) tidak naik atau turun dalam dua bulan berturut_x0002_turut (kemungkinan masalah gizi sebagai penyebab harus disingkirkan dulu dengan tatalaksana yang adekuat)"
+  },
+  {
+   "num": 6,
+   "title": "Kontak erat dengan Pasien TBC",
+   "definisi": "kontak serumah (tinggal serumah) atau kontak tidak serumah tetapi intensitas kontaknya mirip\ndengan kontak serumah, dengan pasien TBC"
+  },
+  {
+   "num": 7,
+   "title": "Terdiagnosa TBC",
+   "definisi": "Diisi tanggal dan tempat ditetapkan sebagai penderita TBC oleh tenaga kesehatan"
+  },
+  {
+   "num": 8,
+   "title": "Pemeriksaan  terakhir",
+   "definisi": "Tuliskan tanggal hasil pemeriksaan TBC terakhir"
+  }
+ ]
+}
