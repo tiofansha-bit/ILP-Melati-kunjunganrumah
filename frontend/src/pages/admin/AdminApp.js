@@ -13,8 +13,9 @@ import Laporan from "./Laporan";
 import logo from "@/assets/logo.png";
 import {
   LayoutDashboard, AlertOctagon, Users, UserCog, ListChecks, PresentationIcon,
-  ScrollText, FileDown, HeartPulse, LogOut, Bell, Menu, X, Presentation,
+  ScrollText, FileDown, HeartPulse, LogOut, Bell, Menu, X, Presentation, KeyRound,
 } from "lucide-react";
+import ChangePassword from "@/components/ChangePassword";
 
 const MENU = [
   { key: "dashboard", label: "Dashboard", icon: LayoutDashboard },
@@ -32,6 +33,7 @@ export default function AdminApp() {
   const [open, setOpen] = useState(false);
   const [notif, setNotif] = useState({ items: [], unread: 0 });
   const [showNotif, setShowNotif] = useState(false);
+  const [showPw, setShowPw] = useState(false);
 
   const loadNotif = () => api.get("/notifikasi").then((r) => setNotif(r.data)).catch(() => {});
   useEffect(() => { loadNotif(); const t = setInterval(loadNotif, 30000); return () => clearInterval(t); }, []);
@@ -88,7 +90,10 @@ export default function AdminApp() {
               <p className="hidden text-xs text-slate-400 sm:block">{user.nama}</p>
             </div>
           </div>
-          <div className="relative">
+          <div className="relative flex items-center gap-2">
+            <button data-testid="admin-change-password-btn" onClick={() => setShowPw(true)} title="Ganti Kata Sandi" className="rounded-xl border border-slate-200 p-2 text-slate-600 hover:bg-slate-50">
+              <KeyRound className="h-5 w-5" />
+            </button>
             <button data-testid="notif-bell" onClick={() => setShowNotif((s) => !s)} className="relative rounded-xl border border-slate-200 p-2 hover:bg-slate-50">
               <Bell className="h-5 w-5 text-slate-600" />
               {notif.unread > 0 && <span className="absolute -right-1 -top-1 grid h-5 w-5 place-items-center rounded-full bg-rose-500 text-[10px] font-bold text-white">{notif.unread}</span>}
@@ -119,6 +124,7 @@ export default function AdminApp() {
           {tab === "audit" && <AuditLog />}
         </main>
       </div>
+      {showPw && <ChangePassword onClose={() => setShowPw(false)} />}
     </div>
   );
 }

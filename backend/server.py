@@ -227,6 +227,21 @@ async def logout(response: Response):
 async def me(user=Depends(get_current_user)):
     return user
 
+class ChangePasswordIn(BaseModel):
+    current_password: str
+    new_password: str
+
+@api.post("/auth/change-password")
+async def change_password(body: ChangePasswordIn, user=Depends(get_current_user)):
+    u = await db.users.find_one({"id": user["id"]})
+    if not u or not verify_password(body.current_password, u["password_hash"]):
+        raise HTTPException(400, "Kata sandi saat ini salah")
+    if len(body.new_password) < 6:
+        raise HTTPException(400, "Kata sandi baru minimal 6 karakter")
+    await db.users.update_one({"id": user["id"]}, {"$set": {"password_hash": hash_password(body.new_password)}})
+    await audit(user, "update", "password", user["id"], "ganti kata sandi")
+    return {"ok": True}
+
 # ==================== MASTER DATA ====================
 @api.get("/master/wilayah")
 async def list_wilayah(user=Depends(get_current_user)):

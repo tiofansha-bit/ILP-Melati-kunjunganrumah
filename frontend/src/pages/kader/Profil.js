@@ -1,9 +1,12 @@
+import { useState } from "react";
 import { useAuth } from "@/context/AuthContext";
 import { toast } from "sonner";
-import { User, MapPin, LogOut, ShieldCheck, Info } from "lucide-react";
+import { User, MapPin, LogOut, ShieldCheck, Info, KeyRound } from "lucide-react";
+import ChangePassword from "@/components/ChangePassword";
 
 export default function Profil() {
   const { user, logout } = useAuth();
+  const [showPw, setShowPw] = useState(false);
   return (
     <div className="animate-slide-up">
       <header className="rounded-b-3xl bg-teal-700 px-5 pb-8 pt-8 text-center text-white">
@@ -24,11 +27,16 @@ export default function Profil() {
           <p className="flex items-center gap-1.5 text-sm font-semibold text-sky-800"><Info className="h-4 w-4" /> Tentang Aplikasi</p>
           <p className="mt-1 text-sm text-sky-700">PWS ILP MELATI membantu kader mendata kunjungan rumah. Aplikasi tidak membuat diagnosis; keputusan klinis dilakukan tenaga kesehatan. Data demo bersifat fiktif.</p>
         </div>
+        <button data-testid="change-password-btn" onClick={() => setShowPw(true)}
+          className="flex w-full items-center justify-center gap-2 rounded-xl border border-slate-200 bg-white py-3 font-semibold text-slate-700 hover:bg-slate-50">
+          <KeyRound className="h-5 w-5 text-teal-600" /> Ganti Kata Sandi
+        </button>
         <button data-testid="logout-btn" onClick={() => { logout(); toast.success("Berhasil keluar"); }}
           className="flex w-full items-center justify-center gap-2 rounded-xl border border-rose-200 bg-rose-50 py-3 font-semibold text-rose-600 hover:bg-rose-100">
           <LogOut className="h-5 w-5" /> Keluar
         </button>
       </div>
+      {showPw && <ChangePassword onClose={() => setShowPw(false)} />}
     </div>
   );
 }
