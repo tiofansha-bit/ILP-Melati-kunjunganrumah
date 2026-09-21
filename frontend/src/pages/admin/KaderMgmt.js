@@ -1,13 +1,14 @@
 import { useEffect, useState } from "react";
 import { api, errMsg } from "@/lib/api";
 import { toast } from "sonner";
-import { Loader2, Plus, UserCog, X } from "lucide-react";
+import { Loader2, Plus, UserCog, X, KeyRound } from "lucide-react";
 
 const KELURAHAN = ["Selat Tengah", "Selat Hulu", "Selat Dalam", "Selat Utara"];
 
 export default function KaderMgmt() {
   const [rows, setRows] = useState(null);
   const [modal, setModal] = useState(null);
+  const [resetK, setResetK] = useState(null);
   const load = () => api.get("/admin/kader").then((r) => setRows(r.data));
   useEffect(() => { load(); }, []);
 
@@ -27,7 +28,12 @@ export default function KaderMgmt() {
                   <td className="px-4 py-3 text-slate-500">{k.posyandu}</td>
                   <td className="px-4 py-3 text-slate-500">{k.target_keluarga}</td>
                   <td className="px-4 py-3">{k.aktif ? <span className="rounded-lg bg-emerald-100 px-2 py-1 text-xs font-semibold text-emerald-700">Aktif</span> : <span className="rounded-lg bg-rose-100 px-2 py-1 text-xs font-semibold text-rose-700">Nonaktif</span>}</td>
-                  <td className="px-4 py-3"><button data-testid={`edit-kader-${k.id}`} onClick={() => setModal(k)} className="text-sm font-semibold text-teal-600">Edit</button></td>
+                  <td className="px-4 py-3">
+                    <div className="flex items-center gap-3">
+                      <button data-testid={`edit-kader-${k.id}`} onClick={() => setModal(k)} className="text-sm font-semibold text-teal-600">Edit</button>
+                      <button data-testid={`reset-pw-kader-${k.id}`} onClick={() => setResetK(k)} className="flex items-center gap-1 text-sm font-semibold text-amber-600"><KeyRound className="h-4 w-4" /> Reset Sandi</button>
+                    </div>
+                  </td>
                 </tr>
               ))}
             </tbody>
@@ -35,6 +41,32 @@ export default function KaderMgmt() {
         </div>
       )}
       {modal && <KaderModal k={modal} onClose={() => setModal(null)} onSaved={() => { setModal(null); load(); }} />}
+      {resetK && <ResetPwModal k={resetK} onClose={() => setResetK(null)} />}
+    </div>
+  );
+}
+
+function ResetPwModal({ k, onClose }) {
+  const [pw, setPw] = useState("kader123");
+  const [saving, setSaving] = useState(false);
+  const submit = async () => {
+    if (pw.length < 6) return toast.error("Kata sandi minimal 6 karakter");
+    setSaving(true);
+    try {
+      const r = await api.post(`/admin/kader/${k.id}/reset-password`, { new_password: pw });
+      toast.success(`Kata sandi ${r.data.username} direset menjadi "${r.data.new_password}"`);
+      onClose();
+    } catch (e) { toast.error(errMsg(e)); } finally { setSaving(false); }
+  };
+  return (
+    <div className="fixed inset-0 z-[60] flex items-center justify-center bg-black/40 p-4" onClick={onClose}>
+      <div data-testid="reset-pw-modal" className="w-full max-w-sm rounded-2xl bg-white p-5" onClick={(e) => e.stopPropagation()}>
+        <div className="mb-3 flex items-center justify-between"><h3 className="flex items-center gap-2 text-lg font-bold text-slate-900"><KeyRound className="h-5 w-5 text-amber-600" /> Reset Kata Sandi</h3><button onClick={onClose}><X className="h-5 w-5 text-slate-400" /></button></div>
+        <p className="mb-3 text-sm text-slate-600">Reset kata sandi untuk <span className="font-semibold text-slate-800">{k.nama}</span> (username: {k.username}). Beri tahu kader kata sandi baru ini.</p>
+        <label className="mb-1 block text-xs font-semibold text-slate-500">Kata Sandi Baru</label>
+        <input data-testid="reset-pw-input" className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm" value={pw} onChange={(e) => setPw(e.target.value)} />
+        <button data-testid="reset-pw-submit" onClick={submit} disabled={saving} className="mt-4 flex w-full items-center justify-center gap-2 rounded-xl bg-amber-500 py-2.5 font-semibold text-white hover:bg-amber-600 disabled:opacity-60">{saving ? <Loader2 className="h-5 w-5 animate-spin" /> : "Reset Kata Sandi"}</button>
+      </div>
     </div>
   );
 }

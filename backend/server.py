@@ -670,16 +670,31 @@ async def rekap(periode: str = "bulan", user=Depends(require_admin)):
 
 # ==================== EXPORT ====================
 @api.get("/export/{jenis}")
-async def export(jenis: str, fmt: str = "csv", user=Depends(require_admin)):
+async def export(jenis: str, fmt: str = "csv", start: str = "", end: str = "", kelurahan: str = "", user=Depends(require_admin)):
     if jenis == "kasus":
-        rows = await db.kasus.find({}, {"_id": 0, "riwayat": 0}).to_list(2000)
+        q = {}
+        if kelurahan:
+            q["kelurahan"] = kelurahan
+        if start or end:
+            q["waktu_lapor"] = dt_range(start, end)
+        rows = await db.kasus.find(q, {"_id": 0, "riwayat": 0}).to_list(2000)
     elif jenis == "keluarga":
-        rows = await db.keluarga.find({"deleted": {"$ne": True}}, {"_id": 0}).to_list(2000)
+        q = {"deleted": {"$ne": True}}
+        if kelurahan:
+            q["kelurahan"] = kelurahan
+        if start or end:
+            q["created_at"] = dt_range(start, end)
+        rows = await db.keluarga.find(q, {"_id": 0}).to_list(2000)
     elif jenis == "kunjungan":
-        rows = await db.kunjungan.find({}, {"_id": 0, "per_anggota": 0}).to_list(2000)
+        q = {}
+        if kelurahan:
+            q["kelurahan"] = kelurahan
+        if start or end:
+            q["created_at"] = dt_range(start, end)
+        rows = await db.kunjungan.find(q, {"_id": 0, "per_anggota": 0}).to_list(2000)
     else:
         raise HTTPException(400, "Jenis laporan tidak dikenal")
-    await audit(user, "export", jenis, "", fmt)
+    await audit(user, "export", jenis, "", f"{fmt} {start}-{end} {kelurahan}".strip())
     if fmt == "csv":
         import csv
         buf = io.StringIO()
@@ -754,6 +769,21 @@ async def update_kader(uid: str, body: dict, user=Depends(require_admin)):
     await db.users.update_one({"id": uid}, {"$set": upd})
     await audit(user, "update", "kader", uid, body.get("nama", ""))
     return await db.users.find_one({"id": uid}, {"_id": 0, "password_hash": 0})
+
+class ResetPwIn(BaseModel):
+    new_password: Optional[str] = None
+
+@api.post("/admin/kader/{uid}/reset-password")
+async def reset_kader_password(uid: str, body: ResetPwIn, user=Depends(require_admin)):
+    u = await db.users.find_one({"id": uid, "role": "kader"})
+    if not u:
+        raise HTTPException(404, "Kader tidak ditemukan")
+    newpw = (body.new_password or "").strip() or "kader123"
+    if len(newpw) < 6:
+        raise HTTPException(400, "Kata sandi minimal 6 karakter")
+    await db.users.update_one({"id": uid}, {"$set": {"password_hash": hash_password(newpw)}})
+    await audit(user, "reset_password", "kader", uid, u.get("nama", ""))
+    return {"ok": True, "username": u["username"], "new_password": newpw}
 
 # ==================== AUDIT LOG ====================
 @api.get("/audit")
