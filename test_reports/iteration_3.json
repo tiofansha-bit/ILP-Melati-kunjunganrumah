@@ -1,0 +1,21 @@
+{
+  "summary": "Frontend-only verification of new DETAILED CHECKLIST feature (pemeriksaan + imunisasi question types). All 4 scenarios PASS: (1) BUMIL_K1..K6 render as pemeriksaan cards with data-testid q-BUMIL_K{n} and tanggal/tempat/petugas inputs — verified all 6 present in ibu_hamil checklist step. (2) BAYI_IMUN_DETAIL renders as imunisasi card with 17 vaccine toggle chips (BAYI_IMUN_DETAIL-vax); toggling first chip flips class to include 'emerald' (green selected state). BAYI_KN1..KN3 pemeriksaan cards also present. (3) Persistence: after wizard submit, GET /api/kunjungan/{id} returns per_anggota[].answers containing BUMIL_K1={tanggal,tempat,petugas}, BAYI_KN1={tanggal,tempat,petugas}, BAYI_IMUN_DETAIL={'Usia 0 bulan':{'Hepatitis B (<24 jam)': true}}. (4) No regression: submit succeeds with only optional detail answers filled, toast 'Laporan kunjungan terkirim!' shown, wizard exits to Beranda; findings/temuan remain empty (detail questions have no problem_when so never fire).",
+  "backend_issues": {"critical": [], "minor": []},
+  "frontend_issues": {"ui_bugs": [], "integration_issues": [], "design_issues": []},
+  "test_report_links": ["/app/test_reports/iteration_3.json"],
+  "action_items": [],
+  "critical_code_review_comments": [
+    "QuestionField.js: 'imunisasi' section reuses same data-testid `${q.kode}-vax` for every chip — OK for count/toggle testing but consumers can't target a specific vaccine chip; consider adding a per-chip suffix like `${q.kode}-vax-${row.usia}-${v}` for granular tests.",
+    "QuestionField.js: date input `max` set to today prevents selecting future ANC dates; acceptable for historical logging but not for scheduled visits (feature intent seems historical — fine).",
+    "Wizard.js ChecklistStep orders members by original anggota array order, so the checklist step-order depends on family structure (bayi came before ibu_hamil for 'Budi Santoso 1'). Not a bug but worth documenting.",
+    "Server evaluate_answers correctly skips q.problem_when=[] so pemeriksaan/imunisasi never create temuan — confirmed prioritas='hijau' and temuan=[] on submitted kunjungan."
+  ],
+  "updated_files": [],
+  "success_rate": {"backend": "not-tested", "frontend": "100%"},
+  "test_credentials": "kader1/kader123, admin/admin123",
+  "seed_data_creation": "One kunjungan created for family 73c42ad4-5147-448b-aa05-4325fc1fb78e (Budi Santoso 1) with 2 members (ibu_hamil, bayi) containing BUMIL_K1, BAYI_KN1 pemeriksaan and BAYI_IMUN_DETAIL imunisasi answers.",
+  "retest_needed": false,
+  "main_agent_can_self_test": true,
+  "context_for_next_testing_agent": "For Budi Santoso 1: bayi anggota (id 249ceb9f-...) is index 0 → its checklist appears as step 3; ibu_hamil (id 9e477fb1-...) is index 3 → its checklist appears as step 4. Total wizard steps with both selected = 6 (confirm, select, bayi-checklist, ibu-checklist, ringkasan, edukasi, kirim = 7 dynamic). Kader GET /api/kunjungan?keluarga_id=... returns 403 — use plain GET /api/kunjungan then filter client-side (or use admin token).",
+  "rca of the issue": "n/a — feature works as specified"
+}
