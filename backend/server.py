@@ -688,13 +688,26 @@ async def export(jenis: str, fmt: str = "csv", user=Depends(require_admin)):
             headers={"Content-Disposition": f"attachment; filename=laporan_{jenis}.xlsx"})
     elif fmt == "pdf":
         from fpdf import FPDF
-        pdf = FPDF(orientation="L"); pdf.add_page(); pdf.set_font("Helvetica", "B", 14)
-        pdf.cell(0, 10, f"Laporan {jenis} - PWS ILP MELATI", ln=1)
+        import textwrap
+        def latin(s):
+            return str(s).encode("latin-1", "replace").decode("latin-1")
+        pdf = FPDF(orientation="L")
+        pdf.set_auto_page_break(True, 15)
+        pdf.add_page()
+        pdf.set_font("Helvetica", "B", 14)
+        pdf.multi_cell(pdf.epw, 8, latin(f"Laporan {jenis} - PWS ILP MELATI"))
         pdf.set_font("Helvetica", "", 8)
-        pdf.cell(0, 6, f"Dicetak: {iso()[:19]} oleh {user['nama']}", ln=1)
-        for r in rows[:60]:
-            line = " | ".join(f"{k}:{v}" for k, v in list(r.items())[:6] if not isinstance(v, (dict, list)))
-            pdf.multi_cell(0, 5, line[:200])
+        pdf.multi_cell(pdf.epw, 5, latin(f"Dicetak: {iso()[:19]} oleh {user['nama']}"))
+        pdf.ln(1)
+        for idx, r in enumerate(rows[:80]):
+            parts = [f"{k}: {v}" for k, v in list(r.items())[:6] if not isinstance(v, (dict, list))]
+            line = latin(" | ".join(parts))
+            line = "\n".join(textwrap.wrap(line, width=140)) or "-"
+            pdf.set_font("Helvetica", "B", 8)
+            pdf.multi_cell(pdf.epw, 5, latin(f"#{idx+1}"))
+            pdf.set_font("Helvetica", "", 8)
+            pdf.multi_cell(pdf.epw, 5, line)
+            pdf.ln(1)
         out = io.BytesIO(pdf.output()); out.seek(0)
         return StreamingResponse(out, media_type="application/pdf",
             headers={"Content-Disposition": f"attachment; filename=laporan_{jenis}.pdf"})
@@ -707,6 +720,8 @@ async def list_kader(user=Depends(require_admin)):
 
 @api.post("/admin/kader")
 async def add_kader(body: dict, user=Depends(require_admin)):
+    if not body.get("username") or not body.get("nama"):
+        raise HTTPException(400, "Username dan nama wajib diisi")
     if await db.users.find_one({"username": body["username"].lower()}):
         raise HTTPException(400, "Username sudah dipakai")
     doc = {"id": new_id(), "username": body["username"].lower(), "nama": body["nama"],

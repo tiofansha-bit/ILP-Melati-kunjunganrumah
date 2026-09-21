@@ -1,0 +1,43 @@
+{
+  "summary": "PWS ILP MELATI full-stack testing. Backend 34/35 (97%) via pytest — only /api/export/kasus?fmt=pdf fails with FPDFException. Frontend: admin dashboard (KPI+charts+Rekap), Prioritas list with case-open (105 cases) + case detail with case-save, Akreditasi simulation dashboard with SIM banner + Edit/Presentation, Master Pertanyaan (28 mq-* elements), Laporan (9 export buttons), Manajemen Kader, Audit Log all render and are navigable. Kader mobile view: Beranda stats + btn-mulai-kunjungan, Keluarga list with search, Tugas tab shows case status, Wizard opens showing keluarga selection (region-scoped to Selat Tengah for kader1). Role isolation verified — kader gets 403 on /dashboard/kpi, /kasus, /akreditasi, /audit. Danger sign flow: creating a visit with priority=merah answer + status=selesai without reminder_confirmed returns 400 (as expected); with reminder_confirmed=true it succeeds and case becomes merah. Full kader flow (create keluarga→add anggota→auto kelompok=dewasa/balita from birthdate→draft visit→completed visit) works end-to-end. Akreditasi update persists narasi and versions[] snapshot.",
+  "backend_issues": {
+    "critical": [],
+    "minor": [
+      {"endpoint": "GET /api/export/kasus?fmt=pdf", "issue": "FPDFException 'Not enough horizontal space to render a single character' — fpdf multi_cell fails when line is too long / no wrapping. CSV and Excel work fine. Fix: sanitize long fields, use pdf.set_auto_page_break, and/or truncate more aggressively or use pdf.cell with fixed width. Kunjungan/keluarga PDF likely have same risk."}
+    ]
+  },
+  "frontend_issues": {
+    "ui_bugs": [],
+    "integration_issues": [],
+    "design_issues": [
+      {"screen": "Admin Dashboard filters", "issues": ["Uses browser default HTML date picker (mm/dd/yyyy) instead of shadcn Calendar component. Recommend replacing with shadcn/ui DatePicker for consistency."]},
+      {"screen": "Admin Dashboard charts", "issues": ["Initial mount emits Recharts warnings 'width(-1) height(-1) of chart should be greater than 0'. Charts do render correctly on resize; consider setting explicit min-height on ResponsiveContainer wrapper to avoid the flicker."]}
+    ]
+  },
+  "test_report_links": [
+    "/app/backend/tests/backend_test.py",
+    "/app/test_reports/pytest/results.xml"
+  ],
+  "action_items": [
+    "Fix PDF export in /app/backend/server.py export() — wrap/truncate rows before pdf.multi_cell (e.g., use pdf.set_auto_page_break(True, 15) and skip empty rows; ensure line[:200] does not include unbreakable long token in narrow width; consider pdf.set_font size 7 or switch to landscape A3, or use reportlab for safer rendering).",
+    "(Optional polish) Replace native date inputs on admin Dashboard filter bar with shadcn DatePicker."
+  ],
+  "critical_code_review_comments": [
+    "server.py is 793 lines (borderline >700 line rule) — consider splitting into routers/ (auth, keluarga, kunjungan, kasus, akreditasi, export, admin).",
+    "CORS: allow_credentials=True combined with allow_origins=['*'] (when FRONTEND_URL is unset) is invalid per CORS spec; browsers will reject credentialed requests. In this env, cookies are httpOnly+secure+samesite=none so the frontend uses Bearer header (via /lib/api.js) — currently works but fragile. Recommend requiring FRONTEND_URL env for prod.",
+    "PDF export lacks input sanitization for FPDF core-font (Helvetica) which is latin-1 only; non-latin characters would also fail (silently or with exception).",
+    "master/questions PUT: body is dict without pydantic validation — allowed fields not enforced (minor risk of arbitrary field injection into master).",
+    "kasus PUT: when body.status=='tidak_dapat_ditindaklanjuti' and alasan missing → 400 (good). But upd dict excludes 'alasan' key with `k != 'alasan'` then re-adds if body.alasan — clean; keep.",
+    "add_kader: no pydantic model; missing 'username'/'nama' would 500 (KeyError). Should validate."
+  ],
+  "updated_files": [
+    "/app/backend/tests/backend_test.py"
+  ],
+  "success_rate": {"backend": "97% (34/35)", "frontend": "100% of tested flows"},
+  "test_credentials": "admin/admin123 (admin), kader1..kader10 / kader123 (kader)",
+  "seed_data_creation": "Tests created TEST_KK_PYTEST, TEST_RED families and TEST_Anggota/TEST_Balita/TEST_Red_Anggota members in kader1's wilayah (Selat Tengah), plus one submitted red visit + case, and one dynamic 'testk<hex>' kader user. All prefixed for easy cleanup.",
+  "retest_needed": true,
+  "should_main_agent_self_test": true,
+  "context_for_next_testing_agent": "Backend test suite at /app/backend/tests/backend_test.py covers auth, master, role isolation, keluarga CRUD, danger-sign reminder, kader beranda, admin dashboard/kpi/charts, kasus CRUD+filters+rules, akreditasi, kader mgmt, audit, exports (CSV/Excel/PDF). Only failing test is PDF export. Login endpoint returns access_token in JSON + also sets httpOnly cookies; frontend uses Bearer via localStorage 'pws_token'. Kader wilayah for kader1 is 'Selat Tengah'. Frontend testid coverage is good: login-*, nav-*, btn-mulai-kunjungan, admin-nav-*, case-open-*, case-save, mq-*, export-*.",
+  "rca of the issue": "PDF export 500: fpdf2 raises FPDFException('Not enough horizontal space to render a single character') from multi_cell when the accumulated string (truncated to line[:200]) contains a single unbreakable token wider than the writable page width for the chosen font/size. Reproduction: GET /api/export/kasus?fmt=pdf with seeded data (kasus rows have long JSON-serialized fields via ' | '.join(f'{k}:{v}' ...)). Mitigation: (a) reduce line length further and/or add whitespace between keys/values to enable line breaks; (b) call pdf.set_auto_page_break(True) and use pdf.multi_cell(w=pdf.epw, ...) with explicit width; (c) sanitize via textwrap.wrap; (d) fall back to CSV attachment if row exceeds width."
+}
