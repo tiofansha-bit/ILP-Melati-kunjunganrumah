@@ -76,7 +76,18 @@ export default function KeluargaForm({ go, params }) {
   const [saving, setSaving] = useState(false);
   const [modal, setModal] = useState(null);
   const [dups, setDups] = useState([]);
+  const [delOpen, setDelOpen] = useState(false);
+  const [deleting, setDeleting] = useState(false);
   const set = (k, v) => setF((p) => ({ ...p, [k]: v }));
+
+  const doDelete = async () => {
+    setDeleting(true);
+    try {
+      await api.delete(`/keluarga/${kid}`);
+      toast.success("Keluarga dihapus");
+      go("keluarga");
+    } catch (e) { toast.error(errMsg(e)); setDeleting(false); }
+  };
 
   useEffect(() => {
     if (editing) api.get(`/keluarga/${params.id}`).then((r) => { setF(r.data); setAnggota(r.data.anggota || []); setLoading(false); });
@@ -187,9 +198,28 @@ export default function KeluargaForm({ go, params }) {
             <ClipboardPlus className="h-5 w-5" /> Mulai Kunjungan Keluarga Ini
           </button>
         )}
+
+        {kid && (
+          <button data-testid="delete-keluarga-btn" onClick={() => setDelOpen(true)} className="flex w-full items-center justify-center gap-2 rounded-xl border border-rose-200 bg-rose-50 py-3 font-semibold text-rose-600 hover:bg-rose-100">
+            <Trash2 className="h-5 w-5" /> Hapus Keluarga
+          </button>
+        )}
       </div>
 
       {modal && <MemberModal keluargaId={kid} member={modal.id ? modal : null} onClose={() => setModal(null)} onSaved={onMemberSaved} />}
+
+      {delOpen && (
+        <div className="fixed inset-0 z-[70] flex items-center justify-center bg-black/40 p-4" onClick={() => !deleting && setDelOpen(false)}>
+          <div data-testid="delete-keluarga-modal" className="w-full max-w-sm rounded-2xl bg-white p-5" onClick={(e) => e.stopPropagation()}>
+            <div className="mb-2 flex items-center gap-2"><Trash2 className="h-5 w-5 text-rose-600" /><h3 className="text-lg font-bold text-slate-900">Hapus Keluarga?</h3></div>
+            <p className="mb-4 text-sm text-slate-600">Keluarga <span className="font-semibold text-slate-800">{f.nama_kk}</span> beserta seluruh anggotanya akan dihapus dari daftar. Tindakan ini tidak bisa dibatalkan.</p>
+            <div className="flex gap-2">
+              <button onClick={() => setDelOpen(false)} disabled={deleting} className="flex-1 rounded-xl border border-slate-200 py-2.5 font-semibold text-slate-600 hover:bg-slate-50 disabled:opacity-60">Batal</button>
+              <button data-testid="confirm-delete-keluarga" onClick={doDelete} disabled={deleting} className="flex flex-1 items-center justify-center gap-2 rounded-xl bg-rose-600 py-2.5 font-semibold text-white hover:bg-rose-700 disabled:opacity-60">{deleting ? <Loader2 className="h-5 w-5 animate-spin" /> : "Hapus"}</button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

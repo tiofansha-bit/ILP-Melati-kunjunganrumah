@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { api, errMsg } from "@/lib/api";
 import { toast } from "sonner";
-import { Loader2, Plus, UserCog, X, KeyRound } from "lucide-react";
+import { Loader2, Plus, UserCog, X, KeyRound, Trash2 } from "lucide-react";
 
 const KELURAHAN = ["Selat Tengah", "Selat Hulu", "Selat Dalam", "Selat Utara"];
 
@@ -9,6 +9,7 @@ export default function KaderMgmt() {
   const [rows, setRows] = useState(null);
   const [modal, setModal] = useState(null);
   const [resetK, setResetK] = useState(null);
+  const [delK, setDelK] = useState(null);
   const load = () => api.get("/admin/kader").then((r) => setRows(r.data));
   useEffect(() => { load(); }, []);
 
@@ -32,6 +33,7 @@ export default function KaderMgmt() {
                     <div className="flex items-center gap-3">
                       <button data-testid={`edit-kader-${k.id}`} onClick={() => setModal(k)} className="text-sm font-semibold text-teal-600">Edit</button>
                       <button data-testid={`reset-pw-kader-${k.id}`} onClick={() => setResetK(k)} className="flex items-center gap-1 text-sm font-semibold text-amber-600"><KeyRound className="h-4 w-4" /> Reset Sandi</button>
+                      <button data-testid={`delete-kader-${k.id}`} onClick={() => setDelK(k)} className="flex items-center gap-1 text-sm font-semibold text-rose-600"><Trash2 className="h-4 w-4" /> Hapus</button>
                     </div>
                   </td>
                 </tr>
@@ -42,6 +44,31 @@ export default function KaderMgmt() {
       )}
       {modal && <KaderModal k={modal} onClose={() => setModal(null)} onSaved={() => { setModal(null); load(); }} />}
       {resetK && <ResetPwModal k={resetK} onClose={() => setResetK(null)} />}
+      {delK && <DelKaderModal k={delK} onClose={() => setDelK(null)} onDeleted={() => { setDelK(null); load(); }} />}
+    </div>
+  );
+}
+
+function DelKaderModal({ k, onClose, onDeleted }) {
+  const [deleting, setDeleting] = useState(false);
+  const submit = async () => {
+    setDeleting(true);
+    try {
+      await api.delete(`/admin/kader/${k.id}`);
+      toast.success(`Kader ${k.nama} dihapus`);
+      onDeleted();
+    } catch (e) { toast.error(errMsg(e)); setDeleting(false); }
+  };
+  return (
+    <div className="fixed inset-0 z-[60] flex items-center justify-center bg-black/40 p-4" onClick={() => !deleting && onClose()}>
+      <div data-testid="delete-kader-modal" className="w-full max-w-sm rounded-2xl bg-white p-5" onClick={(e) => e.stopPropagation()}>
+        <div className="mb-3 flex items-center justify-between"><h3 className="flex items-center gap-2 text-lg font-bold text-slate-900"><Trash2 className="h-5 w-5 text-rose-600" /> Hapus Kader</h3><button onClick={onClose}><X className="h-5 w-5 text-slate-400" /></button></div>
+        <p className="mb-4 text-sm text-slate-600">Hapus akun kader <span className="font-semibold text-slate-800">{k.nama}</span> (username: {k.username})? Akun tidak bisa lagi digunakan untuk masuk. Data keluarga & kunjungan yang sudah dibuat tetap tersimpan.</p>
+        <div className="flex gap-2">
+          <button onClick={onClose} disabled={deleting} className="flex-1 rounded-xl border border-slate-200 py-2.5 font-semibold text-slate-600 hover:bg-slate-50 disabled:opacity-60">Batal</button>
+          <button data-testid="confirm-delete-kader" onClick={submit} disabled={deleting} className="flex flex-1 items-center justify-center gap-2 rounded-xl bg-rose-600 py-2.5 font-semibold text-white hover:bg-rose-700 disabled:opacity-60">{deleting ? <Loader2 className="h-5 w-5 animate-spin" /> : "Hapus Kader"}</button>
+        </div>
+      </div>
     </div>
   );
 }

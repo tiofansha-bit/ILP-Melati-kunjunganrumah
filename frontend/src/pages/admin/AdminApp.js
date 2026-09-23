@@ -10,10 +10,12 @@ import MasterQuestions from "./MasterQuestions";
 import Akreditasi from "./Akreditasi";
 import AuditLog from "./AuditLog";
 import Laporan from "./Laporan";
+import RekapKader from "./RekapKader";
+import ImportData from "./ImportData";
 import logo from "@/assets/logo.png";
 import {
-  LayoutDashboard, AlertOctagon, Users, UserCog, ListChecks, PresentationIcon,
-  ScrollText, FileDown, HeartPulse, LogOut, Bell, Menu, X, Presentation, KeyRound,
+  LayoutDashboard, AlertOctagon, Users, UserCog, ListChecks, PresentationIcon, ClipboardCheck,
+  ScrollText, FileDown, HeartPulse, LogOut, Bell, Menu, X, Presentation, KeyRound, Upload,
 } from "lucide-react";
 import ChangePassword from "@/components/ChangePassword";
 
@@ -22,7 +24,10 @@ const MENU = [
   { key: "prioritas", label: "Daftar Prioritas", icon: AlertOctagon },
   { key: "keluarga", label: "Keluarga & Sasaran", icon: Users },
   { key: "laporan", label: "Laporan & Rekap", icon: FileDown },
+  { key: "akreditasi", label: "Mode", icon: Presentation },
   { key: "kader", label: "Manajemen Kader", icon: UserCog },
+  { key: "rekap-kader", label: "Rekap per Kader", icon: ClipboardCheck },
+  { key: "import", label: "Import Data", icon: Upload },
   { key: "master", label: "Master Pertanyaan", icon: ListChecks },
   { key: "audit", label: "Audit Log", icon: ScrollText },
 ];
@@ -120,6 +125,8 @@ export default function AdminApp() {
           {tab === "laporan" && <Laporan />}
           {tab === "akreditasi" && <Akreditasi />}
           {tab === "kader" && <KaderMgmt />}
+          {tab === "rekap-kader" && <RekapKader />}
+          {tab === "import" && <ImportData />}
           {tab === "master" && <MasterQuestions />}
           {tab === "audit" && <AuditLog />}
         </main>

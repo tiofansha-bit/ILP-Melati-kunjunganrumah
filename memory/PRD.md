@@ -5,7 +5,8 @@ Import repo `ILP-Melati-kunjunganrumah` (existing full-stack PWA) and get it ins
 
 ## Source
 - GitHub: https://github.com/tiofansha-bit/ILP-Melati-kunjunganrumah.git
-- Branch used: `conflict_210926_1057` (Phase 1 gate: scanned clean — NO conflict markers, so no fallback to `main` needed).
+- Branch used: `conflict_230926_1145` — the NEWEST branch (2026-09-23 09:33), switched to it after user noted "not the latest version". Phase 1 gate: scanned clean (NO conflict markers). (Earlier had used `conflict_210926_1057`, also clean but older.)
+- CORS: backend supports `FRONTEND_URL` env to pin allowed origin; set to the preview origin. In this platform frontend+backend are same-origin via ingress, so requests work regardless.
 
 ## Architecture (as-is, no rewrite)
 - Frontend: React 19 (CRA + craco), Tailwind, shadcn/ui — served on :3000 (supervisor).

@@ -46,6 +46,7 @@ export default function Login() {
             ))}
           </div>
         </div>
+        <p className="relative z-10 text-xs text-teal-200">Data demonstrasi bersifat fiktif.</p>
       </div>
 
       {/* Right form */}
