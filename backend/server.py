@@ -748,6 +748,45 @@ async def export(jenis: str, fmt: str = "csv", start: str = "", end: str = "", k
 async def list_kader(user=Depends(require_admin)):
     return await db.users.find({"role": "kader"}, {"_id": 0, "password_hash": 0}).to_list(200)
 
+@api.get("/dashboard/rekap-kader")
+async def rekap_kader(start: str = "", end: str = "", kelurahan: str = "", user=Depends(require_admin)):
+    """Rekap per kader (tidak digabung): jumlah keluarga unik yang sudah ditangani tiap kader."""
+    vq = {"status": "terkirim"}
+    if kelurahan:
+        vq["kelurahan"] = kelurahan
+    if start or end:
+        vq["created_at"] = dt_range(start, end)
+    agg = {}
+    pipeline = [
+        {"$match": vq},
+        {"$group": {"_id": "$kader_id",
+                    "keluarga": {"$addToSet": "$keluarga_id"},
+                    "total_kunjungan": {"$sum": 1}}},
+    ]
+    async for row in db.kunjungan.aggregate(pipeline):
+        agg[row["_id"]] = {
+            "keluarga_ditangani": len(row.get("keluarga", [])),
+            "total_kunjungan": row.get("total_kunjungan", 0),
+        }
+    kaders = await db.users.find({"role": "kader"}, {"_id": 0, "password_hash": 0}).to_list(500)
+    hasil = []
+    for k in kaders:
+        a = agg.get(k["id"], {"keluarga_ditangani": 0, "total_kunjungan": 0})
+        draf = await db.kunjungan.count_documents({"kader_id": k["id"], "status": "draf"})
+        target = k.get("target_keluarga", 0) or 0
+        ditangani = a["keluarga_ditangani"]
+        hasil.append({
+            "kader_id": k["id"], "nama": k["nama"], "username": k["username"],
+            "wilayah": k.get("wilayah", []), "posyandu": k.get("posyandu", ""),
+            "target_keluarga": target, "aktif": k.get("aktif", True),
+            "keluarga_ditangani": ditangani, "total_kunjungan": a["total_kunjungan"],
+            "draf": draf,
+            "cakupan": round(ditangani / target * 100, 1) if target else 0,
+        })
+    hasil.sort(key=lambda x: x["keluarga_ditangani"], reverse=True)
+    total_unik = len(await db.kunjungan.distinct("keluarga_id", vq))
+    return {"kader": hasil, "total_kader": len(hasil), "total_keluarga_ditangani_unik": total_unik}
+
 @api.post("/admin/kader")
 async def add_kader(body: dict, user=Depends(require_admin)):
     if not body.get("username") or not body.get("nama"):
