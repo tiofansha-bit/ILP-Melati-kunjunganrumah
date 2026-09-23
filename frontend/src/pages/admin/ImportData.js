@@ -1,14 +1,21 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { api, errMsg } from "@/lib/api";
 import { toast } from "sonner";
 import { Download, Upload, FileSpreadsheet, CheckCircle2, AlertTriangle, Loader2, Users, UserCog } from "lucide-react";
 
-function ImportCard({ testid, icon: Icon, title, desc, templateUrl, templateName, uploadUrl, panduan }) {
+function ImportCard({ testid, icon: Icon, title, desc, templateUrl, templateName, uploadUrl, panduan, assignKader = false }) {
   const [file, setFile] = useState(null);
   const [uploading, setUploading] = useState(false);
   const [downloading, setDownloading] = useState(false);
   const [result, setResult] = useState(null);
+  const [kaders, setKaders] = useState([]);
+  const [kaderId, setKaderId] = useState("");
   const inputRef = useRef(null);
+
+  useEffect(() => {
+    if (!assignKader) return;
+    api.get("/admin/kader").then((r) => setKaders(r.data || [])).catch(() => {});
+  }, [assignKader]);
 
   const downloadTemplate = async () => {
     setDownloading(true);
@@ -28,9 +35,10 @@ function ImportCard({ testid, icon: Icon, title, desc, templateUrl, templateName
     try {
       const fd = new FormData();
       fd.append("file", file);
+      if (assignKader && kaderId) fd.append("kader_id", kaderId);
       const res = await api.post(uploadUrl, fd, { headers: { "Content-Type": "multipart/form-data" } });
       setResult(res.data);
-      toast.success(`${res.data.created} data berhasil diimpor`);
+      toast.success(`${res.data.created} data berhasil diimpor${res.data.kader ? ` untuk ${res.data.kader}` : ""}`);
       setFile(null); if (inputRef.current) inputRef.current.value = "";
     } catch (e) { toast.error(errMsg(e)); } finally { setUploading(false); }
   };
@@ -56,6 +64,25 @@ function ImportCard({ testid, icon: Icon, title, desc, templateUrl, templateName
         className="mb-3 flex w-full items-center justify-center gap-2 rounded-xl border border-teal-200 bg-teal-50 py-2.5 text-sm font-semibold text-teal-700 hover:bg-teal-100 disabled:opacity-60">
         {downloading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Download className="h-4 w-4" />} Unduh Template Excel
       </button>
+
+      {assignKader && (
+        <div className="mb-3">
+          <label className="mb-1.5 block text-xs font-bold uppercase tracking-wide text-slate-500">
+            Tujukan ke Kader (opsional)
+          </label>
+          <select data-testid={`${testid}-kader-select`} value={kaderId}
+            onChange={(e) => setKaderId(e.target.value)}
+            className="w-full rounded-xl border border-slate-300 bg-white px-3 py-2.5 text-sm text-slate-700 outline-none focus:border-teal-500 focus:ring-2 focus:ring-teal-100">
+            <option value="">— Tidak ditujukan (milik admin) —</option>
+            {kaders.map((k) => (
+              <option key={k.id} value={k.id}>
+                {k.nama} ({k.username}){k.wilayah?.length ? ` — ${k.wilayah.join(", ")}` : ""}
+              </option>
+            ))}
+          </select>
+          <p className="mt-1 text-xs text-slate-400">Semua keluarga dari file ini akan ditujukan ke kader terpilih dan tampil di daftar kunjungannya.</p>
+        </div>
+      )}
 
       <label className="mb-3 flex cursor-pointer items-center gap-3 rounded-xl border-2 border-dashed border-slate-300 bg-white px-4 py-3 hover:border-teal-400">
         <FileSpreadsheet className="h-5 w-5 text-slate-400" />
@@ -112,11 +139,13 @@ export default function ImportData() {
           templateUrl="/admin/import/template/keluarga"
           templateName="template_keluarga.xlsx"
           uploadUrl="/admin/import/keluarga"
+          assignKader
           panduan={[
             "Kolom wajib: nama_kk dan kelurahan.",
             "Kelurahan: Selat Tengah, Selat Hulu, Selat Dalam, atau Selat Utara.",
             "Kolom punya_jkn / air_bersih / jamban / ventilasi diisi 'Ya' atau 'Tidak'.",
             "Baris dengan alamat sama persis otomatis digabung menjadi 1 keluarga.",
+            "Pilih kader tujuan di atas agar keluarga langsung masuk daftar kunjungan kader tsb.",
             "Isi mulai baris ke-2; jangan ubah nama kolom. Hapus baris contoh sebelum unggah.",
           ]}
         />

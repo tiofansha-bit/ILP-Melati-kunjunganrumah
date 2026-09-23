@@ -7,7 +7,7 @@ import os
 ROOT_DIR = Path(__file__).parent
 load_dotenv(ROOT_DIR / '.env')
 
-from fastapi import FastAPI, APIRouter, HTTPException, Request, Response, Depends, Query, UploadFile, File
+from fastapi import FastAPI, APIRouter, HTTPException, Request, Response, Depends, Query, UploadFile, File, Form
 from fastapi.responses import StreamingResponse
 from starlette.middleware.cors import CORSMiddleware
 from motor.motor_asyncio import AsyncIOMotorClient
@@ -282,18 +282,24 @@ async def groups(user=Depends(get_current_user)):
 def region_filter(user):
     if user["role"] == "admin":
         return {}
-    return {"kelurahan": {"$in": user.get("wilayah", [])}}
+    # kader melihat keluarga di wilayahnya ATAU yang ditujukan langsung ke dirinya
+    return {"$or": [{"kelurahan": {"$in": user.get("wilayah", [])}},
+                    {"kader_id": user["id"]}]}
 
 @api.get("/keluarga")
 async def list_keluarga(search: str = "", kelurahan: str = "", page: int = 1, limit: int = 50, user=Depends(get_current_user)):
     q = {"deleted": {"$ne": True}}
-    q.update(region_filter(user))
+    conds = []
+    if user["role"] != "admin":
+        conds.append(region_filter(user))
     if kelurahan:
         q["kelurahan"] = kelurahan
     if search:
-        q["$or"] = [{"nama_kk": {"$regex": search, "$options": "i"}},
+        conds.append({"$or": [{"nama_kk": {"$regex": search, "$options": "i"}},
                     {"alamat": {"$regex": search, "$options": "i"}},
-                    {"rt": search}, {"no_hp": {"$regex": search}}]
+                    {"rt": search}, {"no_hp": {"$regex": search}}]})
+    if conds:
+        q["$and"] = conds
     total = await db.keluarga.count_documents(q)
     rows = await db.keluarga.find(q, {"_id": 0}).sort("nama_kk", 1).skip((page-1)*limit).limit(limit).to_list(limit)
     for r in rows:
@@ -928,8 +934,15 @@ def _read_sheet(content):
     return header, rows[1:]
 
 @api.post("/admin/import/keluarga")
-async def import_keluarga(file: UploadFile = File(...), user=Depends(require_admin)):
+async def import_keluarga(file: UploadFile = File(...), kader_id: Optional[str] = Form(default=None), user=Depends(require_admin)):
     header, data_rows = _read_sheet(await file.read())
+    kader = None
+    if kader_id:
+        kader = await db.users.find_one({"id": kader_id, "role": "kader"})
+        if not kader:
+            raise HTTPException(400, "Kader tujuan tidak ditemukan")
+    owner_id = kader["id"] if kader else user["id"]
+    owner_nama = kader["nama"] if kader else user["nama"]
     created, digabung, errors = 0, 0, []
     seen = {}  # alamat_norm -> True (dalam file yang sama)
     for idx, raw in enumerate(data_rows, start=2):
@@ -956,16 +969,22 @@ async def import_keluarga(file: UploadFile = File(...), user=Depends(require_adm
             if existing:
                 seen[alamat_norm] = True
                 digabung += 1
+                # jika ditujukan ke kader tertentu, alihkan kepemilikan keluarga yang sudah ada
+                if kader:
+                    await db.keluarga.update_one({"id": existing["id"]}, {"$set": {
+                        "kader_id": kader["id"], "kader_nama": kader["nama"],
+                        "created_by": kader["id"], "created_by_nama": kader["nama"]}})
                 await audit(user, "import_gabung", "keluarga", existing["id"], f"baris {idx} digabung (alamat sama): {alamat}")
                 continue
             seen[alamat_norm] = True
         doc = {
-            "id": new_id(), "deleted": False, "created_by": user["id"], "created_by_nama": user["nama"],
+            "id": new_id(), "deleted": False, "created_by": owner_id, "created_by_nama": owner_nama,
+            "kader_id": kader["id"] if kader else None, "kader_nama": kader["nama"] if kader else None,
             "created_at": iso(), "puskesmas": "UPT Puskesmas Melati", "data_lengkap": True,
             "nama_kk": nama, "kelurahan": kel,
             "alamat": alamat, "alamat_norm": alamat_norm,
             "rt": str(rec.get("rt") or "").strip(), "rw": str(rec.get("rw") or "").strip(),
-            "posyandu": str(rec.get("posyandu") or "").strip(),
+            "posyandu": str(rec.get("posyandu") or "").strip() or (kader.get("posyandu", "") if kader else ""),
             "no_hp": str(rec.get("no_hp") or "").strip(),
             "catatan_lokasi": str(rec.get("catatan_lokasi") or "").strip(),
             "punya_jkn": _parse_bool_cell(rec.get("punya_jkn")),
@@ -974,8 +993,10 @@ async def import_keluarga(file: UploadFile = File(...), user=Depends(require_adm
             "ventilasi": _parse_bool_cell(rec.get("ventilasi")),
         }
         await db.keluarga.insert_one(doc); created += 1
-    await audit(user, "import", "keluarga", "", f"{created} dibuat, {digabung} digabung, {len(errors)} gagal")
-    return {"ok": True, "created": created, "digabung": digabung, "gagal": len(errors), "errors": errors[:50]}
+    tujuan = f" ditujukan ke kader {kader['nama']}" if kader else ""
+    await audit(user, "import", "keluarga", "", f"{created} dibuat, {digabung} digabung, {len(errors)} gagal{tujuan}")
+    return {"ok": True, "created": created, "digabung": digabung, "gagal": len(errors),
+            "errors": errors[:50], "kader": kader["nama"] if kader else None}
 
 @api.post("/admin/import/kader")
 async def import_kader(file: UploadFile = File(...), user=Depends(require_admin)):
