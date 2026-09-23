@@ -14,7 +14,7 @@ from motor.motor_asyncio import AsyncIOMotorClient
 from pydantic import BaseModel, Field
 from typing import List, Optional, Any, Dict
 from datetime import datetime, timezone, timedelta, date
-import uuid, logging, json, io, bcrypt, jwt
+import uuid, logging, json, io, bcrypt, jwt, re
 from collections import defaultdict, Counter
 
 logging.basicConfig(level=logging.INFO)
@@ -891,8 +891,9 @@ async def template_keluarga(user=Depends(require_admin)):
         f"3. Kolom 'kelurahan' harus salah satu dari: {', '.join(KELURAHAN_LIST)}.",
         "4. Kolom punya_jkn, air_bersih, jamban, ventilasi diisi 'Ya' atau 'Tidak' (boleh dikosongkan).",
         "5. Kolom rt, rw, no_hp diisi sebagai teks (mis. 01, 02).",
-        "6. Baris contoh (Budi Santoso) boleh dihapus sebelum diunggah.",
-        "7. Simpan sebagai file .xlsx lalu unggah pada menu Import Data > Keluarga.",
+        "6. Baris dengan ALAMAT yang sama persis akan otomatis digabung menjadi 1 keluarga.",
+        "7. Baris contoh (Budi Santoso) boleh dihapus sebelum diunggah.",
+        "8. Simpan sebagai file .xlsx lalu unggah pada menu Import Data > Keluarga.",
     ]
     example = ["Budi Santoso", "Selat Tengah", "Jl. Melati No. 1", "01", "02", "Melati 1", "081234567890", "Dekat masjid", "Ya", "Ya", "Ya", "Ya"]
     wb = _build_template(KELUARGA_COLS, example, panduan, "PANDUAN IMPOR DATA KELUARGA")
@@ -929,7 +930,8 @@ def _read_sheet(content):
 @api.post("/admin/import/keluarga")
 async def import_keluarga(file: UploadFile = File(...), user=Depends(require_admin)):
     header, data_rows = _read_sheet(await file.read())
-    created, errors = 0, []
+    created, digabung, errors = 0, 0, []
+    seen = {}  # alamat_norm -> True (dalam file yang sama)
     for idx, raw in enumerate(data_rows, start=2):
         rec = {header[i]: raw[i] for i in range(len(header)) if i < len(raw)}
         nama = str(rec.get("nama_kk") or "").strip()
@@ -938,11 +940,30 @@ async def import_keluarga(file: UploadFile = File(...), user=Depends(require_adm
             continue
         if not nama or not kel:
             errors.append({"row": idx, "msg": "nama_kk dan kelurahan wajib diisi"}); continue
+        alamat = str(rec.get("alamat") or "").strip()
+        alamat_norm = " ".join(alamat.lower().split())
+        if alamat_norm:
+            # alamat yang sama persis digabung menjadi 1 keluarga
+            if alamat_norm in seen:
+                digabung += 1
+                await audit(user, "import_gabung", "keluarga", "", f"baris {idx} digabung (alamat sama): {alamat}")
+                continue
+            existing = await db.keluarga.find_one({
+                "deleted": {"$ne": True},
+                "$or": [{"alamat_norm": alamat_norm},
+                        {"alamat": {"$regex": f"^{re.escape(alamat)}$", "$options": "i"}}],
+            })
+            if existing:
+                seen[alamat_norm] = True
+                digabung += 1
+                await audit(user, "import_gabung", "keluarga", existing["id"], f"baris {idx} digabung (alamat sama): {alamat}")
+                continue
+            seen[alamat_norm] = True
         doc = {
             "id": new_id(), "deleted": False, "created_by": user["id"], "created_by_nama": user["nama"],
             "created_at": iso(), "puskesmas": "UPT Puskesmas Melati", "data_lengkap": True,
             "nama_kk": nama, "kelurahan": kel,
-            "alamat": str(rec.get("alamat") or "").strip(),
+            "alamat": alamat, "alamat_norm": alamat_norm,
             "rt": str(rec.get("rt") or "").strip(), "rw": str(rec.get("rw") or "").strip(),
             "posyandu": str(rec.get("posyandu") or "").strip(),
             "no_hp": str(rec.get("no_hp") or "").strip(),
@@ -953,8 +974,8 @@ async def import_keluarga(file: UploadFile = File(...), user=Depends(require_adm
             "ventilasi": _parse_bool_cell(rec.get("ventilasi")),
         }
         await db.keluarga.insert_one(doc); created += 1
-    await audit(user, "import", "keluarga", "", f"{created} dibuat, {len(errors)} gagal")
-    return {"ok": True, "created": created, "gagal": len(errors), "errors": errors[:50]}
+    await audit(user, "import", "keluarga", "", f"{created} dibuat, {digabung} digabung, {len(errors)} gagal")
+    return {"ok": True, "created": created, "digabung": digabung, "gagal": len(errors), "errors": errors[:50]}
 
 @api.post("/admin/import/kader")
 async def import_kader(file: UploadFile = File(...), user=Depends(require_admin)):

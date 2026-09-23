@@ -75,6 +75,11 @@ function ImportCard({ testid, icon: Icon, title, desc, templateUrl, templateName
             <CheckCircle2 className="h-5 w-5" /> {result.created} data berhasil diimpor
             {result.gagal > 0 && <span className="ml-auto text-amber-600">{result.gagal} baris gagal</span>}
           </div>
+          {result.digabung > 0 && (
+            <div className="flex items-center gap-2 rounded-xl bg-sky-50 px-3 py-2.5 text-sm font-semibold text-sky-700">
+              <Users className="h-5 w-5" /> {result.digabung} baris digabung karena alamat sama persis
+            </div>
+          )}
           {result.errors?.length > 0 && (
             <div className="rounded-xl border border-amber-200 bg-amber-50 p-3">
               <p className="mb-1.5 flex items-center gap-1.5 text-xs font-bold text-amber-800"><AlertTriangle className="h-4 w-4" /> Baris yang gagal:</p>
@@ -111,6 +116,7 @@ export default function ImportData() {
             "Kolom wajib: nama_kk dan kelurahan.",
             "Kelurahan: Selat Tengah, Selat Hulu, Selat Dalam, atau Selat Utara.",
             "Kolom punya_jkn / air_bersih / jamban / ventilasi diisi 'Ya' atau 'Tidak'.",
+            "Baris dengan alamat sama persis otomatis digabung menjadi 1 keluarga.",
             "Isi mulai baris ke-2; jangan ubah nama kolom. Hapus baris contoh sebelum unggah.",
           ]}
         />
