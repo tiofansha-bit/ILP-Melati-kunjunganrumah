@@ -1,0 +1,24 @@
+{
+  "summary": "Frontend-only test of new 'Rekap per Kader' feature. Logged in as admin/admin123, clicked new sidebar item (data-testid admin-nav-rekap-kader), page rendered with data-testid rekap-kader-page. Table shows 11 rows (one per kader) with distinct 'Keluarga Ditangani' counts (Siti Aminah=5, Dewi Lestari=4, Rina/Nur/Sri/Maryam=3, Yuli/Fitri/Lestari=2, Endang=1, TEST_Kader_New=0) — confirming per-kader NOT aggregated. Three KPI cards visible (Jumlah Kader=11, Keluarga Ditangani unik=28, Kader Teratas=5) and horizontal bar chart 'Keluarga Ditangani per Kader' renders. Filters (start/end date, kelurahan, Terapkan button) work without errors.",
+  "backend_issues": {"critical": [], "minor": []},
+  "frontend_issues": {
+    "ui_bugs": [],
+    "integration_issues": [],
+    "design_issues": [
+      {"screen": "Rekap per Kader", "issues": ["Recharts logs multiple 'width(-1) height(-1)' warnings on initial mount before container measures; charts still render correctly but warnings are noisy. Consider adding a fixed min-height/min-width or key prop to ResponsiveContainer to suppress."]}
+    ]
+  },
+  "test_report_links": [],
+  "action_items": [],
+  "critical_code_review_comments": [
+    "Recharts ResponsiveContainer emits width(-1)/height(-1) warnings on Rekap per Kader page — set explicit minWidth/minHeight to eliminate console noise."
+  ],
+  "updated_files": [],
+  "success_rate": {"backend": "not tested (skipped per request)", "frontend": "100%"},
+  "test_credentials": "admin/admin123 (verified working)",
+  "seed_data_creation": "None (used existing seeded demo data)",
+  "retest_needed": false,
+  "main_agent_can_self_test": true,
+  "context_for_next_testing_agent": "Rekap per Kader feature fully working. Only cosmetic Recharts warning remains. Backend endpoint /api/dashboard/rekap-kader was previously curl-verified by main agent.",
+  "rca of the issue": "N/A — all acceptance criteria passed."
+}
