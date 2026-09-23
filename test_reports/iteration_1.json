@@ -1,0 +1,21 @@
+{
+  "summary": "Frontend-only verification of two UI hide changes. Login page no longer shows 'Data demonstrasi bersifat fiktif' while 'Akun demo' box remains. Admin sidebar no longer contains 'Mode'/akreditasi item; all 7 expected nav items present with correct data-testids. Admin dashboard KPIs render correctly post-login.",
+  "backend_issues": {"critical": [], "minor": []},
+  "frontend_issues": {
+    "ui_bugs": [],
+    "integration_issues": [],
+    "design_issues": [
+      {"screen": "Admin Dashboard charts", "issues": ["Recharts console warnings: 'The width(-1) and height(-1) of chart should be greater than 0' - initial ResponsiveContainer sizing warning, non-blocking"]}
+    ]
+  },
+  "test_report_links": [],
+  "action_items": [],
+  "critical_code_review_comments": ["Recharts ResponsiveContainer receives width/height=-1 on first render; consider adding minWidth/minHeight or fixed aspect to silence warnings."],
+  "updated_files": [],
+  "success_rate": {"backend": "n/a", "frontend": "100%"},
+  "test_credentials": "admin/admin123 verified working",
+  "seed_data_creation": "none",
+  "retest_needed": false,
+  "should_main_agent_self_test": true,
+  "context_for_next_testing_agent": "Login and admin app both function. Nav testids: admin-nav-{dashboard,prioritas,keluarga,laporan,kader,master,audit}. akreditasi testid absent as required."
+}
