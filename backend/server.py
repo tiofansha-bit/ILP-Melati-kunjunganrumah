@@ -339,6 +339,18 @@ async def update_keluarga(kid: str, body: KeluargaIn, user=Depends(get_current_u
     await audit(user, "update", "keluarga", kid, body.nama_kk)
     return await db.keluarga.find_one({"id": kid}, {"_id": 0})
 
+@api.delete("/keluarga/{kid}")
+async def delete_keluarga(kid: str, user=Depends(get_current_user)):
+    k = await db.keluarga.find_one({"id": kid})
+    if not k or k.get("deleted"):
+        raise HTTPException(404, "Keluarga tidak ditemukan")
+    if user["role"] == "kader" and k.get("kelurahan") not in user.get("wilayah", []):
+        raise HTTPException(403, "Keluarga di luar wilayah tugas Anda")
+    await db.keluarga.update_one({"id": kid}, {"$set": {"deleted": True, "deleted_at": iso(), "deleted_by": user["nama"]}})
+    await db.anggota.update_many({"keluarga_id": kid}, {"$set": {"deleted": True}})
+    await audit(user, "delete", "keluarga", kid, k.get("nama_kk", ""))
+    return {"ok": True, "nama_kk": k.get("nama_kk", "")}
+
 @api.post("/anggota")
 async def add_anggota(body: AnggotaIn, user=Depends(get_current_user)):
     if body.nik and len(body.nik) != 16:
@@ -823,6 +835,15 @@ async def reset_kader_password(uid: str, body: ResetPwIn, user=Depends(require_a
     await db.users.update_one({"id": uid}, {"$set": {"password_hash": hash_password(newpw)}})
     await audit(user, "reset_password", "kader", uid, u.get("nama", ""))
     return {"ok": True, "username": u["username"], "new_password": newpw}
+
+@api.delete("/admin/kader/{uid}")
+async def delete_kader(uid: str, user=Depends(require_admin)):
+    u = await db.users.find_one({"id": uid, "role": "kader"})
+    if not u:
+        raise HTTPException(404, "Kader tidak ditemukan")
+    await db.users.delete_one({"id": uid})
+    await audit(user, "delete", "kader", uid, u.get("nama", ""))
+    return {"ok": True, "nama": u.get("nama", "")}
 
 # ==================== AUDIT LOG ====================
 @api.get("/audit")
