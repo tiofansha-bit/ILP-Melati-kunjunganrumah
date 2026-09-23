@@ -7,7 +7,7 @@ import os
 ROOT_DIR = Path(__file__).parent
 load_dotenv(ROOT_DIR / '.env')
 
-from fastapi import FastAPI, APIRouter, HTTPException, Request, Response, Depends, Query
+from fastapi import FastAPI, APIRouter, HTTPException, Request, Response, Depends, Query, UploadFile, File
 from fastapi.responses import StreamingResponse
 from starlette.middleware.cors import CORSMiddleware
 from motor.motor_asyncio import AsyncIOMotorClient
@@ -844,6 +844,147 @@ async def delete_kader(uid: str, user=Depends(require_admin)):
     await db.users.delete_one({"id": uid})
     await audit(user, "delete", "kader", uid, u.get("nama", ""))
     return {"ok": True, "nama": u.get("nama", "")}
+
+# ==================== IMPORT / TEMPLATE EXCEL (ADMIN) ====================
+KELURAHAN_LIST = ["Selat Tengah", "Selat Hulu", "Selat Dalam", "Selat Utara"]
+KELUARGA_COLS = ["nama_kk", "kelurahan", "alamat", "rt", "rw", "posyandu", "no_hp", "catatan_lokasi", "punya_jkn", "air_bersih", "jamban", "ventilasi"]
+KADER_COLS = ["nama", "username", "password", "wilayah", "posyandu", "target_keluarga"]
+
+def _parse_bool_cell(v):
+    s = str(v).strip().lower()
+    if s in ("ya", "yes", "true", "1", "y"): return True
+    if s in ("tidak", "no", "false", "0", "n"): return False
+    return None
+
+def _xlsx_response(wb, filename):
+    out = io.BytesIO(); wb.save(out); out.seek(0)
+    return StreamingResponse(out, media_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+        headers={"Content-Disposition": f"attachment; filename={filename}"})
+
+def _build_template(cols, example, panduan, title):
+    import openpyxl
+    from openpyxl.styles import Font, PatternFill, Alignment
+    from openpyxl.utils import get_column_letter
+    wb = openpyxl.Workbook()
+    ws = wb.active; ws.title = "Data"
+    for i, h in enumerate(cols, 1):
+        c = ws.cell(row=1, column=i, value=h)
+        c.font = Font(bold=True, color="FFFFFF")
+        c.fill = PatternFill("solid", fgColor="0D9488")
+        c.alignment = Alignment(horizontal="center", vertical="center")
+        ws.column_dimensions[get_column_letter(i)].width = max(14, len(h) + 4)
+    ws.append(example)
+    ws.freeze_panes = "A2"
+    pan = wb.create_sheet("Panduan")
+    pan.append([title]); pan["A1"].font = Font(bold=True, size=14, color="0D9488")
+    pan.append([""])
+    for line in panduan:
+        pan.append([line])
+    pan.column_dimensions["A"].width = 95
+    return wb
+
+@api.get("/admin/import/template/keluarga")
+async def template_keluarga(user=Depends(require_admin)):
+    panduan = [
+        "1. Isi data mulai baris ke-2 pada sheet 'Data'. JANGAN mengubah nama kolom di baris 1.",
+        "2. Kolom WAJIB: nama_kk, kelurahan.",
+        f"3. Kolom 'kelurahan' harus salah satu dari: {', '.join(KELURAHAN_LIST)}.",
+        "4. Kolom punya_jkn, air_bersih, jamban, ventilasi diisi 'Ya' atau 'Tidak' (boleh dikosongkan).",
+        "5. Kolom rt, rw, no_hp diisi sebagai teks (mis. 01, 02).",
+        "6. Baris contoh (Budi Santoso) boleh dihapus sebelum diunggah.",
+        "7. Simpan sebagai file .xlsx lalu unggah pada menu Import Data > Keluarga.",
+    ]
+    example = ["Budi Santoso", "Selat Tengah", "Jl. Melati No. 1", "01", "02", "Melati 1", "081234567890", "Dekat masjid", "Ya", "Ya", "Ya", "Ya"]
+    wb = _build_template(KELUARGA_COLS, example, panduan, "PANDUAN IMPOR DATA KELUARGA")
+    return _xlsx_response(wb, "template_keluarga.xlsx")
+
+@api.get("/admin/import/template/kader")
+async def template_kader(user=Depends(require_admin)):
+    panduan = [
+        "1. Isi data mulai baris ke-2 pada sheet 'Data'. JANGAN mengubah nama kolom di baris 1.",
+        "2. Kolom WAJIB: nama, username, wilayah.",
+        "3. 'username' harus unik (belum dipakai). Ditulis tanpa spasi, mis. kader11.",
+        "4. 'password' opsional — jika dikosongkan, kader diberi kata sandi default 'kader123'.",
+        f"5. 'wilayah' diisi satu kelurahan: {', '.join(KELURAHAN_LIST)}.",
+        "6. 'target_keluarga' diisi angka (mis. 30). Jika kosong, otomatis 30.",
+        "7. Baris contoh boleh dihapus sebelum diunggah. Simpan sebagai .xlsx lalu unggah pada menu Import Data > Kader.",
+    ]
+    example = ["Siti Aminah", "kader11", "kader123", "Selat Tengah", "Melati 1", 30]
+    wb = _build_template(KADER_COLS, example, panduan, "PANDUAN IMPOR DATA KADER")
+    return _xlsx_response(wb, "template_kader.xlsx")
+
+def _read_sheet(content):
+    import openpyxl
+    try:
+        wb = openpyxl.load_workbook(io.BytesIO(content), data_only=True)
+    except Exception:
+        raise HTTPException(400, "File tidak valid. Gunakan file .xlsx dari template.")
+    ws = wb["Data"] if "Data" in wb.sheetnames else wb.active
+    rows = list(ws.iter_rows(values_only=True))
+    if not rows:
+        raise HTTPException(400, "File kosong.")
+    header = [str(c).strip().lower() if c is not None else "" for c in rows[0]]
+    return header, rows[1:]
+
+@api.post("/admin/import/keluarga")
+async def import_keluarga(file: UploadFile = File(...), user=Depends(require_admin)):
+    header, data_rows = _read_sheet(await file.read())
+    created, errors = 0, []
+    for idx, raw in enumerate(data_rows, start=2):
+        rec = {header[i]: raw[i] for i in range(len(header)) if i < len(raw)}
+        nama = str(rec.get("nama_kk") or "").strip()
+        kel = str(rec.get("kelurahan") or "").strip()
+        if not nama and not kel and not any(v not in (None, "") for v in (raw or [])):
+            continue
+        if not nama or not kel:
+            errors.append({"row": idx, "msg": "nama_kk dan kelurahan wajib diisi"}); continue
+        doc = {
+            "id": new_id(), "deleted": False, "created_by": user["id"], "created_by_nama": user["nama"],
+            "created_at": iso(), "puskesmas": "UPT Puskesmas Melati", "data_lengkap": True,
+            "nama_kk": nama, "kelurahan": kel,
+            "alamat": str(rec.get("alamat") or "").strip(),
+            "rt": str(rec.get("rt") or "").strip(), "rw": str(rec.get("rw") or "").strip(),
+            "posyandu": str(rec.get("posyandu") or "").strip(),
+            "no_hp": str(rec.get("no_hp") or "").strip(),
+            "catatan_lokasi": str(rec.get("catatan_lokasi") or "").strip(),
+            "punya_jkn": _parse_bool_cell(rec.get("punya_jkn")),
+            "air_bersih": _parse_bool_cell(rec.get("air_bersih")),
+            "jamban": _parse_bool_cell(rec.get("jamban")),
+            "ventilasi": _parse_bool_cell(rec.get("ventilasi")),
+        }
+        await db.keluarga.insert_one(doc); created += 1
+    await audit(user, "import", "keluarga", "", f"{created} dibuat, {len(errors)} gagal")
+    return {"ok": True, "created": created, "gagal": len(errors), "errors": errors[:50]}
+
+@api.post("/admin/import/kader")
+async def import_kader(file: UploadFile = File(...), user=Depends(require_admin)):
+    header, data_rows = _read_sheet(await file.read())
+    created, errors = 0, []
+    for idx, raw in enumerate(data_rows, start=2):
+        rec = {header[i]: raw[i] for i in range(len(header)) if i < len(raw)}
+        nama = str(rec.get("nama") or "").strip()
+        username = str(rec.get("username") or "").strip().lower()
+        wil = str(rec.get("wilayah") or "").strip()
+        if not nama and not username and not any(v not in (None, "") for v in (raw or [])):
+            continue
+        if not nama or not username:
+            errors.append({"row": idx, "msg": "nama dan username wajib diisi"}); continue
+        if not wil:
+            errors.append({"row": idx, "msg": "wilayah (kelurahan) wajib diisi"}); continue
+        if await db.users.find_one({"username": username}):
+            errors.append({"row": idx, "msg": f"username '{username}' sudah dipakai"}); continue
+        pw = str(rec.get("password") or "").strip() or "kader123"
+        try:
+            target = int(rec.get("target_keluarga") or 30)
+        except Exception:
+            target = 30
+        doc = {"id": new_id(), "username": username, "nama": nama, "role": "kader",
+               "wilayah": [wil], "posyandu": str(rec.get("posyandu") or "").strip(),
+               "target_keluarga": target, "aktif": True,
+               "password_hash": hash_password(pw), "created_at": iso()}
+        await db.users.insert_one(doc); created += 1
+    await audit(user, "import", "kader", "", f"{created} dibuat, {len(errors)} gagal")
+    return {"ok": True, "created": created, "gagal": len(errors), "errors": errors[:50]}
 
 # ==================== AUDIT LOG ====================
 @api.get("/audit")

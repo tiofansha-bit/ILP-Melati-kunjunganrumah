@@ -1,0 +1,28 @@
+{
+  "summary": "Frontend-only regression for new Delete features: (1) KADER delete family and (2) ADMIN delete kader. Both E2E flows verified end-to-end using the production preview URL and REAL demo logins (kader1/kader123, admin/admin123). Backend was NOT retested (per request). All assertions passed: delete button hidden on new-family form, visible in edit/detail mode, confirm modal opens, deleted family no longer appears in list, success toast 'Keluarga dihapus' shown; admin can add throwaway kader with Edit+Reset+Hapus buttons in row, delete flow removes the kader, and existing Edit / Reset Sandi modals still open correctly.",
+  "backend_issues": {"critical": [], "minor": []},
+  "frontend_issues": {
+    "ui_bugs": [],
+    "integration_issues": [],
+    "design_issues": [
+      {"screen": "Kader KeluargaForm after saving a NEW family", "issues": ["After successfully creating a new family via 'Simpan Data Keluarga', the 'Hapus Keluarga' button does NOT appear on the same view even though a valid `kid` exists in state. Reason: visibility uses `editing && kid`, but `editing = !!params.id` is captured once from initial props and never becomes true after a create. User must navigate back to the list and re-open the family to see the delete/edit affordance. Minor UX gap — spec says the button should only show for existing families, which is technically respected, but users may be confused because they cannot see the button until they re-open. Consider changing condition to `kid && (editing || savedNew)` or setting `editing` based on `kid` rather than `params.id`."]}
+    ]
+  },
+  "test_report_links": ["/app/test_reports/iteration_6.json"],
+  "action_items": [
+    "OPTIONAL UX (P3): In /app/frontend/src/pages/kader/KeluargaForm.js line 202, change condition from `editing && kid` to just `kid` (or derive `editing` from `kid`) so the delete button also becomes available immediately after saving a new family, matching user expectation. Currently users must go back to the list and re-open. Not blocking — feature works via the documented flow."
+  ],
+  "critical_code_review_comments": [
+    "KeluargaForm.js: `editing` const is captured only from `params.id` on first render (line 71). After a create-then-save, `kid` is set but `editing` stays false, so the 'Hapus Keluarga' button (line 202) never shows on that view. Prefer `const editing = !!kid;` (react to state) so both saved-new and existing families show delete.",
+    "KeluargaForm.js: duplicate-check API (`/keluarga/duplicate-check`) keeps flagging stale soft-deleted 'QA Hapus KK' entries; consider filtering `deleted_at is null` in that endpoint. Observed 3 phantom dupes for same name in create form after prior soft-deletes.",
+    "Playwright interop note (not a bug): on mobile viewport the keluarga-card <button> onClick does not fire under Playwright `element.click(force=True)` (React onClick handler seems not invoked, likely due to the sticky top nav + overflow-y-auto wrapper). A native `element.click()` via page.evaluate works. Consider adding `type=button` explicitly and/or removing intermediate wrappers with pointer-events implications for better test/tap reliability."
+  ],
+  "updated_files": [],
+  "success_rate": {"backend": "not tested (per request)", "frontend": "100% (2/2 flows + Edit/Reset regression all PASS)"},
+  "test_credentials": "admin/admin123, kader1/kader123 (from problem statement)",
+  "seed_data_creation": "Created throwaway kader (nama 'QA Del Kader', username 'qadelkader') — deleted at end of test. Created throwaway family 'QA Hapus KK' (kelurahan Selat Tengah) — deleted at end of test. Also cleaned up 6 prior 'QA Hapus KK' entries left by earlier iterations. No seeded demo data was modified; no passwords changed.",
+  "retest_needed": false,
+  "main_agent_can_self_test": true,
+  "context_for_next_testing_agent": "The delete-family and delete-kader UI flows are fully working with correct backend integration (soft delete on family, hard delete on kader). Note two observations for future: (a) 'Hapus Keluarga' button only appears on the form when the user re-opens the family from the list — right after 'Save' on a new family, the button does not show even though `kid` is set (design of `editing` constant). (b) On mobile viewport, Playwright's high-level click on `[data-testid^=\"keluarga-card-\"]` does not trigger navigation; use `page.evaluate(el => el.click())` to reliably tap cards. Use `js_click` helper for reliable mobile interactions in this app.",
+  "rca of the issue": "N/A — no bugs blocking the requested features. Delete flows for both KADER (family soft-delete) and ADMIN (kader hard-delete) work correctly with confirm modals, success toasts, and list refresh."
+}

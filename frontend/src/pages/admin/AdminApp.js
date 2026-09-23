@@ -11,10 +11,11 @@ import Akreditasi from "./Akreditasi";
 import AuditLog from "./AuditLog";
 import Laporan from "./Laporan";
 import RekapKader from "./RekapKader";
+import ImportData from "./ImportData";
 import logo from "@/assets/logo.png";
 import {
   LayoutDashboard, AlertOctagon, Users, UserCog, ListChecks, PresentationIcon, ClipboardCheck,
-  ScrollText, FileDown, HeartPulse, LogOut, Bell, Menu, X, Presentation, KeyRound,
+  ScrollText, FileDown, HeartPulse, LogOut, Bell, Menu, X, Presentation, KeyRound, Upload,
 } from "lucide-react";
 import ChangePassword from "@/components/ChangePassword";
 
@@ -26,6 +27,7 @@ const MENU = [
   { key: "akreditasi", label: "Mode", icon: Presentation },
   { key: "kader", label: "Manajemen Kader", icon: UserCog },
   { key: "rekap-kader", label: "Rekap per Kader", icon: ClipboardCheck },
+  { key: "import", label: "Import Data", icon: Upload },
   { key: "master", label: "Master Pertanyaan", icon: ListChecks },
   { key: "audit", label: "Audit Log", icon: ScrollText },
 ];
@@ -124,6 +126,7 @@ export default function AdminApp() {
           {tab === "akreditasi" && <Akreditasi />}
           {tab === "kader" && <KaderMgmt />}
           {tab === "rekap-kader" && <RekapKader />}
+          {tab === "import" && <ImportData />}
           {tab === "master" && <MasterQuestions />}
           {tab === "audit" && <AuditLog />}
         </main>

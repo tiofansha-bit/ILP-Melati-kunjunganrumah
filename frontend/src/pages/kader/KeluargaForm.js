@@ -199,7 +199,7 @@ export default function KeluargaForm({ go, params }) {
           </button>
         )}
 
-        {editing && kid && (
+        {kid && (
           <button data-testid="delete-keluarga-btn" onClick={() => setDelOpen(true)} className="flex w-full items-center justify-center gap-2 rounded-xl border border-rose-200 bg-rose-50 py-3 font-semibold text-rose-600 hover:bg-rose-100">
             <Trash2 className="h-5 w-5" /> Hapus Keluarga
           </button>
