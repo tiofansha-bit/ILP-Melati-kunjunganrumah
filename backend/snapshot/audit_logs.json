@@ -1,0 +1,22 @@
+[
+ {
+  "id": "21770540-312e-4ad0-8fc3-89042572116e",
+  "user_id": "83d32e19-a6e5-4d2f-87e2-93a12609b88f",
+  "user_nama": "Petugas Puskesmas Melati",
+  "aksi": "import",
+  "entitas": "keluarga",
+  "entitas_id": "",
+  "detail": "2 dibuat, 0 digabung, 0 gagal ditujukan ke kader tio",
+  "waktu": "2026-09-23T12:52:56.306502+00:00"
+ },
+ {
+  "id": "ccef8792-8114-415b-b862-83d70b1fa1a3",
+  "user_id": "83d32e19-a6e5-4d2f-87e2-93a12609b88f",
+  "user_nama": "Petugas Puskesmas Melati",
+  "aksi": "import",
+  "entitas": "keluarga",
+  "entitas_id": "",
+  "detail": "2 dibuat, 0 digabung, 0 gagal ditujukan ke kader  Mila",
+  "waktu": "2026-09-23T12:53:21.366621+00:00"
+ }
+]
